@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="shortcut icon" type="image/png" href="/img/newsletter.png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style/home.css">
+    <title>Formulario de inscrição</title>
+</head>
+
+<body>
+    <header>
+        <h1 class="headerTittle">
+            Assine nossa newsletter
+        </h1>
+    </header>
+
+    <main class="main-content-form">
+        <form action="/register" method="post" class="newsletter-form">
+            <div class="name-group group">
+                <label for="username" class="label-name">Insira seu nome:</label>
+                <input type="text" name="username" id="usernameInput" class="username-input content">
+            </div>
+
+            <div class="email-group group">
+                <label for="email" class="label-email">Insira seu email:</label>
+                <input type="email" name="email" id="emailInput" class="email-input content">
+            </div>
+
+            <div class="phone-group group">
+                <label for="phoneInput" class="label-phone">Insira seu número de telefone:</label>
+                <input type="tel" name="phone" id="phoneInput" class="phone-input content">
+            </div>
+
+            <div class="message-group group">
+                <label for="messageInput" class="label-message">Envie uma mensagem:</label>
+                <textarea name="message" id="messageInput" class="message-input content" placeholder="Óla, gostaria de entrar em contato para..."
+                rows="6" cols="50"></textarea>
+            </div>
+
+            <div class="option-group group">
+                <input type="checkbox" name="option" id="optionInput" class="option-input content">
+                <label for="optionInput" class="label-input">Desejo receber notificações no e-mail sobre promoções e ofertas...</label>
+            </div>
+
+            <div class="btn-group group">
+                <button type="submit" class="submit-btn">ENVIAR</button>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>

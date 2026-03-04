@@ -1,0 +1,94 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --font: "Inter", sans-serif;
+    --bg-color: #2e2d2d;
+    --color-primary: #6d1e6d;
+    --color-secondary: #d690ec;
+    --font-color: #e0ffea;
+    --font-color-secondary: #e9e0ff;
+    --shadow-text: 0 2px 3px var(--font-color);
+    --shadow-1: 0 4px 12px rgba(224, 255, 234, 0.4);
+}
+
+body {
+    font-family: var(--font);
+    font-optical-sizing: auto;
+    background: var(--bg-color);
+    color: var(--font-color);
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    background: var(--color-primary);
+    box-shadow: var(--shadow-1);
+}
+
+.headerTittle {
+    text-align: center;
+    color: var(--font-color);
+    padding: 3rem;
+    letter-spacing: .25rem;
+    text-shadow: var(--shadow-text);
+}
+
+.main-content-form {
+    padding-top: 180px;
+    align-content: center;
+    justify-self: center;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.option-group {
+    flex-direction: row;
+}
+
+.username-input, .email-input, .phone-input, .message-input {
+    padding: .5rem;
+    margin-top: .5rem;
+}
+
+.label-input {
+    color: var(--font-color-secondary);
+}
+
+.option-input {
+    margin-right: 1rem;
+    cursor: pointer;
+    width: 1rem;
+}
+
+.btn-group  {
+    align-items: center;
+}
+
+.submit-btn {
+    padding: 1rem;
+    width: 18rem;
+}
+
+.content {
+    border: solid var(--color-secondary);
+    border-radius: .5rem;
+    background: transparent;
+    color: white;
+}
+
+.content::placeholder {
+    color: #abbdb0;
+    font-size: 16px;
+}
