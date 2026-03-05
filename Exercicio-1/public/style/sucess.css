@@ -1,0 +1,110 @@
+:root {
+    --font: "Inter", sans-serif;
+    --bg-color: #2e2d2d;
+    --color-primary: #6d1e6d;
+    --color-secondary: #d690ec;
+    --font-color: #e0ffea;
+    --font-color-secondary: #e9e0ff;
+    --shadow-text: 0 2px 2px var(--font-color);
+    --shadow-text-secondary: 0 0 8px rgba(224, 255, 234, 0.4);
+    --shadow-1: 0 4px 12px rgba(224, 255, 234, 0.4);
+}
+
+
+main {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.sucess-sct {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-items: center;
+}
+
+.sucess-sct p {
+    font-size: 1.25rem;
+    text-shadow: var(--shadow-text);
+}
+
+.border-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    width: 200px;
+    height: 200px;
+    margin: 1rem;
+    box-shadow: 0 6px 20px 0 rgba(109, 30, 109, 0.6);
+    border: 3px solid var(--color-secondary);
+    border-radius: 1rem;
+}
+
+.sucess-img {
+    display: flex;
+    width: 100px;
+    height: auto;
+}
+
+.actions-btn {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.viewRegisteredBtn, .sendNewBtn {
+    padding: 1rem;
+    width: 18rem;
+    border-radius: .75rem;
+    letter-spacing: .25rem;
+    font-weight: 800;
+    cursor: pointer;
+    border: solid var(--color-secondary);
+    background: var(--color-primary);
+    color: var(--font-color);
+    box-shadow: 0 4px 14px 0 rgba(109, 30, 109, 0.4);
+    text-shadow: var(--shadow-text-secondary);
+
+    display: flex;
+    align-items: center;      /* Alinha a imagem e o texto verticalmente no centro */
+    justify-content: center;  /* Centraliza todo o conteúdo no meio do botão */   
+}
+
+.viewRegisteredBtn:hover, .sendNewBtn:hover {
+    background-color: #8e278e;
+    box-shadow: 0 6px 20px 0 rgba(109, 30, 109, 0.6);
+    transform: translateY(-2px);
+}
+
+.viewRegisteredBtn:active, .sendNewBtn:active {
+    animation: jump 0.4s ease;
+}
+
+/* Animação de pulo */
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-15px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    70% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

@@ -24,23 +24,23 @@
         <form action="/register" method="post" class="newsletter-form">
             <div class="name-group group">
                 <label for="username" class="label label-name"><img src="/img/profile.png" alt="" class="img">Insira seu nome:</label>
-                <input type="text" name="username" id="usernameInput" class="username-input content">
+                <input type="text" name="username" id="usernameInput" class="username-input content" required>
             </div>
 
             <div class="email-group group">
                 <label for="email" class="label label-email"><img src="/img/mail.png" alt="" class="img">Insira seu email:</label>
-                <input type="email" name="email" id="emailInput" class="email-input content">
+                <input type="email" name="email" id="emailInput" class="email-input content" required>
             </div>
 
             <div class="phone-group group">
                 <label for="phoneInput" class="label label-phone"><img src="/img/phone-call.png" alt="" class="img">Insira seu número de telefone:</label>
-                <input type="tel" name="phone" id="phoneInput" class="phone-input content">
+                <input type="tel" name="phone" id="phoneInput" class="phone-input content" required>
             </div>
 
             <div class="message-group group">
                 <label for="messageInput" class="label label-message"><img src="/img/message.png" alt="" class="img">Envie uma mensagem:</label>
                 <textarea name="message" id="messageInput" class="message-input content" placeholder="Óla, gostaria de entrar em contato para..."
-                rows="6" cols="50"></textarea>
+                rows="6" cols="50" required></textarea>
             </div>
 
             <div class="option-group group">
@@ -49,7 +49,7 @@
             </div>
 
             <div class="btn-group group">
-                <button type="submit" class="submit-btn">ENVIAR</button>
+                <button type="submit" class="submit-btn btn"><img src="/img/send.png" alt="" class="img">ENVIAR</button>
             </div>
         </form>
     </main>

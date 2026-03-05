@@ -11,6 +11,7 @@ Desafio Extra: Crie na página de visualização dos e-mails cadastrados um bot�
 
 const express = require('express');
 const path = require('path');
+const crypto = require('crypto'); // Nativo do Node.js para gerar IDs
 
 const app = express();
 
@@ -31,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 //===========================================================================================================================================
 //Lista de emails para armazenamento
 //===========================================================================================================================================
-const emailList = [];
+let newsletterList = [];
 
 //===========================================================================================================================================
 //Rotas:
@@ -41,14 +42,40 @@ app.get('/home', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
+    const newsletterID = crypto.randomUUID(); //gera ID unico
     const username = req.body.username;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    const message = req.body.message;
+    //Verificação rapida, caso checkbox marcado seja "on" vai retornar true, caso não, retorna false
+    const optionChecked = req.body.option === 'on';
 
-    emailList.push({ name: username });
+    newsletterList.push({ id: newsletterID, name: username, email: email, phone: phone, message: message, notifications: optionChecked });
     res.redirect('/sucess');
 });
 
 app.get('/sucess', (req, res) => {
     res.render('sucess');
+});
+
+app.get('/newsletter-registered', (req, res) => {
+    res.render('newsletter-list', { newsletters: newsletterList });
+})
+
+app.delete('/delete-newsletter/:id', (req, res) => {
+    const ID = req.params.id;
+
+    const newsletterIndex = newsletterList.findIndex((user) => user.id === ID);
+
+    if (newsletterIndex !== -1) {
+        // Se encontrou, remove 1 item da array naquela posição
+        newsletterList.splice(index, 1); 
+        // Responde para o frontend: "Deu tudo certo, código 200"
+        res.status(200).json({ message: 'Usuário deletado com sucesso!' });
+    } else {
+        // Se não achou, responde com erro 404
+        res.status(404).json({ error: 'Usuário não encontrado' });
+    }
 });
 
 //===========================================================================================================================================
