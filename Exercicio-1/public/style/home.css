@@ -11,6 +11,8 @@
     --font-color: #e0ffea;
     --font-color-secondary: #e9e0ff;
     --shadow-text: 0 2px 3px var(--font-color);
+    --shadow-text-secondary: 0 0 8px rgba(224, 255, 234, 0.4);
+    ;
     --shadow-1: 0 4px 12px rgba(224, 255, 234, 0.4);
 }
 
@@ -57,7 +59,14 @@ header {
     flex-direction: row;
 }
 
-.username-input, .email-input, .phone-input, .message-input {
+.label {
+    text-shadow: var(--shadow-text-secondary);
+}
+
+.username-input,
+.email-input,
+.phone-input,
+.message-input {
     padding: .5rem;
     margin-top: .5rem;
 }
@@ -66,19 +75,67 @@ header {
     color: var(--font-color-secondary);
 }
 
+.img {
+    width: 1rem;
+    height: auto;
+    margin-right: .5rem;
+}
+
 .option-input {
     margin-right: 1rem;
     cursor: pointer;
     width: 1rem;
 }
 
-.btn-group  {
+.btn-group {
     align-items: center;
 }
 
 .submit-btn {
     padding: 1rem;
     width: 18rem;
+    border-radius: .75rem;
+    letter-spacing: .25rem;
+    font-weight: 800;
+    cursor: pointer;
+    border: solid var(--color-secondary);
+    background: var(--color-primary);
+    color: var(--font-color);
+    box-shadow: 0 4px 14px 0 rgba(109, 30, 109, 0.4);
+    text-shadow: var(--shadow-text-secondary);
+}
+
+.submit-btn:hover {
+    background-color: #8e278e;
+    box-shadow: 0 6px 20px 0 rgba(109, 30, 109, 0.6);
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    animation: jump 0.4s ease;
+}
+
+/* Animação de pulo */
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-15px);
+    }
+
+    50% {
+        transform: translateY(0);
+    }
+
+    70% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
 .content {
@@ -91,4 +148,10 @@ header {
 .content::placeholder {
     color: #abbdb0;
     font-size: 16px;
+}
+
+.option-input {
+    accent-color: var(--color-primary);
+    box-shadow: 0 4px 14px 0 rgba(109, 30, 109, 0.4);
+    border: 2px solid var(--color-secondary);
 }
