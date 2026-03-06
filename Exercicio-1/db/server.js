@@ -16,6 +16,7 @@ const crypto = require('crypto'); // Nativo do Node.js para gerar IDs
 const app = express();
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'views')));
 
 //===========================================================================================================================================
 //Configurações iniciais para usar o ejs e indicar suas pastas
@@ -48,7 +49,13 @@ app.post('/register', (req, res) => {
     const phone = req.body.phone;
     const message = req.body.message;
     //Verificação rapida, caso checkbox marcado seja "on" vai retornar true, caso não, retorna false
-    const optionChecked = req.body.option === 'on';
+    let optionChecked = req.body.option;
+
+    if (optionChecked === 'on') {
+        optionChecked = 'Sim';
+    } else {
+        optionChecked = 'Não';
+    };
 
     newsletterList.push({ id: newsletterID, name: username, email: email, phone: phone, message: message, notifications: optionChecked });
     res.redirect('/sucess');
@@ -59,7 +66,7 @@ app.get('/sucess', (req, res) => {
 });
 
 app.get('/newsletter-registered', (req, res) => {
-    res.render('newsletter-list', { newsletters: newsletterList });
+    res.render('newsletter-list', { newsletterList });
 })
 
 app.delete('/delete-newsletter/:id', (req, res) => {
@@ -69,7 +76,7 @@ app.delete('/delete-newsletter/:id', (req, res) => {
 
     if (newsletterIndex !== -1) {
         // Se encontrou, remove 1 item da array naquela posição
-        newsletterList.splice(index, 1); 
+        newsletterList.splice(newsletterIndex, 1); 
         // Responde para o frontend: "Deu tudo certo, código 200"
         res.status(200).json({ message: 'Usuário deletado com sucesso!' });
     } else {

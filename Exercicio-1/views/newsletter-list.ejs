@@ -10,25 +10,37 @@
     <link rel="shortcut icon" type="image/png" href="/img/newsletter.png"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style/home.css">
-    <link rel="stylesheet" href="/style/sucess.css">
+    <link rel="stylesheet" href="/style/list.css">
     <title>Formulario de inscrição</title>
 </head>
 
 <body>
     <header>
         <h1 class="headerTittle">
-            Assine nossa newsletter
+            newsletters recebidas
         </h1>
     </header>
 
     <main>
-        <ul>
-            <% newsletterList.forEach(user => { %>
-                
+        <section class="list-sct">
+            <% newsletterList.forEach((user) => { %>
+                <div class="newsletter-item" id='<%= user.id %>'>
+                    <p class="item name">Nome: <%= user.name %></p>
+                    <p class="item email">Email: <%= user.email %></p>
+                    <p class="item phone">Celular: <%= user.phone %></p>
+                    <p class="item message">Mensagem: <%= user.message %></p>
+                    <p class="item notifications">Notificações ativadas: <%= user.notifications %></p>
+
+                    <button class="btn delete-btn" id="deleteBtn" data-id='<%= user.id %>'>
+                        DELETAR
+                    </button>
+                </div>
+
            <% }); %>
-        </ul>
+        </section>
     </main>
 
+    <script src="/src/list.js"></script>
 </body>
 
 </html>

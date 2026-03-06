@@ -58,7 +58,7 @@ main {
     gap: 2rem;
 }
 
-.viewRegisteredBtn, .sendNewBtn {
+.view-registered-btn, .send-new-btn {
     padding: 1rem;
     width: 18rem;
     border-radius: .75rem;
@@ -70,19 +70,21 @@ main {
     color: var(--font-color);
     box-shadow: 0 4px 14px 0 rgba(109, 30, 109, 0.4);
     text-shadow: var(--shadow-text-secondary);
+    text-decoration: none;
 
     display: flex;
     align-items: center;      /* Alinha a imagem e o texto verticalmente no centro */
-    justify-content: center;  /* Centraliza todo o conteúdo no meio do botão */   
+    justify-content: center;  /* Centraliza todo o conteúdo no meio do botão */  
+    text-align: center;
 }
 
-.viewRegisteredBtn:hover, .sendNewBtn:hover {
+.view-registered-btn:hover, .send-new-btn:hover {
     background-color: #8e278e;
     box-shadow: 0 6px 20px 0 rgba(109, 30, 109, 0.6);
     transform: translateY(-2px);
 }
 
-.viewRegisteredBtn:active, .sendNewBtn:active {
+.view-registered-btn:active, .send-new-btn:active {
     animation: jump 0.4s ease;
 }
 
