@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 
-const postsController = require('./controllers/postsController');
-const adminController = require('./controllers/adminController');
+const postsController = require('../controllers/postController');
+// const adminController = require('./controllers/adminController');
 
-router.get('/', postsController);
+//Rota para obter todos os posts
+router.get('/api/posts', postsController.allPosts);
 
-module.exports(router);
+//Enviando o index.html, principal
+router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../frontend/index.html'));
+});
+
+module.exports = router;

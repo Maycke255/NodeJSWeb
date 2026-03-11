@@ -15,3 +15,8 @@ app.use(express.static(path.join(__dirname, '..', 'frontend')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(router);
+
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+    console.log(`Server rodando na porta: <http://localhost>:${PORT}/`);
+});

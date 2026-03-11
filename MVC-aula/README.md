@@ -39,3 +39,87 @@ MVC é um padrão de arquitetura que divide a aplicação em três componentes p
 - ✅ **Fácil de testar:** Você testa cada camada independentemente
 - ✅ **Escalável:** Adicionar novas funcionalidades é simples
 - ✅ **Manutenível:** Mudanças em uma camada não afetam as outras
+
+## Estrutura de pastas recomendada:
+projeto-newsletter/
+│
+├── backend/                    # Tudo relacionado ao servidor Node.js
+│   ├── server.js              # Arquivo principal (entry point)
+│   ├── config/                # Configurações (banco de dados, variáveis de ambiente)
+│   │   └── database.js
+│   ├── controllers/           # Controllers (intermediários)
+│   │   ├── newsletterController.js
+│   │   └── userController.js
+│   ├── models/                # Models (lógica de dados)
+│   │   ├── Newsletter.js
+│   │   └── User.js
+│   ├── routes/                # Rotas da API
+│   │   ├── newsletter.routes.js
+│   │   └── user.routes.js
+│   ├── middlewares/           # Middlewares (autenticação, validação)
+│   │   └── authMiddleware.js
+│   └── utils/                 # Funções utilitárias
+│       └── validators.js
+│
+├── frontend/                   # Tudo relacionado ao cliente
+│   ├── pages/                 # Páginas (cada página é um diretório)
+│   │   ├── home/
+│   │   │   ├── index.html
+│   │   │   ├── home.css
+│   │   │   └── home.js
+│   │   ├── newsletter/
+│   │   │   ├── index.html
+│   │   │   ├── newsletter.css
+│   │   │   └── newsletter.js
+│   │   └── success/
+│   │       ├── index.html
+│   │       ├── success.css
+│   │       └── success.js
+│   │
+│   ├── components/            # Componentes reutilizáveis
+│   │   ├── header/
+│   │   │   ├── header.html
+│   │   │   ├── header.css
+│   │   │   └── header.js
+│   │   ├── footer/
+│   │   │   ├── footer.html
+│   │   │   ├── footer.css
+│   │   │   └── footer.js
+│   │   └── modal/
+│   │       ├── modal.html
+│   │       ├── modal.css
+│   │       └── modal.js
+│   │
+│   ├── assets/                # Recursos estáticos
+│   │   ├── images/
+│   │   │   ├── icons/
+│   │   │   ├── logos/
+│   │   │   └── illustrations/
+│   │   ├── fonts/
+│   │   └── videos/
+│   │
+│   ├── css/                   # CSS global
+│   │   ├── global.css         # Estilos globais
+│   │   ├── variables.css      # Variáveis CSS (cores, espaçamentos)
+│   │   ├── reset.css          # Reset/Normalize
+│   │   └── responsive.css     # Media queries globais
+│   │
+│   ├── js/                    # JavaScript compartilhado
+│   │   ├── api.js             # Funções para fazer fetch/requisições
+│   │   ├── utils.js           # Funções utilitárias
+│   │   ├── constants.js       # Constantes da aplicação
+│   │   └── main.js            # Script principal
+│   │
+│   └── index.html             # HTML principal (carrega componentes)
+│
+├── public/                    # Pasta servida estaticamente pelo Express
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   └── assets/
+│
+├── .env                       # Variáveis de ambiente (NÃO commitar no Git!)
+├── .gitignore                 # Arquivos a ignorar no Git
+├── package.json               # Dependências do projeto
+├── README.md                  # Documentação do projeto
+└── .editorconfig              # Configuração do editor de código
