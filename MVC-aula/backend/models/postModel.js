@@ -4,11 +4,10 @@
 class PostModel {
     constructor() {
         this.posts = [
-            { id: "1", title: 'Teste 1', content: 'Lorem ipsum...', createdAt: new Date(), updatedAt: new Date() },
-            { id: "2", title: 'Teste 2', content: 'Lorem ipsum...', createdAt: new Date(), updatedAt: new Date() }
+
         ];
     }
-
+s
     getAllPosts () {
         return this.posts;
     }

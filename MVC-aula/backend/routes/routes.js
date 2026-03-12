@@ -7,6 +7,7 @@ const postsController = require('../controllers/postController');
 
 //Rota para obter todos os posts
 router.get('/api/posts', postsController.allPosts);
+// router.get('/api/posts/:id');
 
 //Enviando o index.html, principal
 router.get('/', (req, res) => {
