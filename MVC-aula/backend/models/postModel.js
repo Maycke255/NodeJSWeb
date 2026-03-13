@@ -7,7 +7,7 @@ class PostModel {
 
         ];
     }
-s
+
     getAllPosts () {
         return this.posts;
     }

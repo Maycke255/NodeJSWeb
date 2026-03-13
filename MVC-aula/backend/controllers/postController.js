@@ -11,7 +11,7 @@ class PostsController {
 
             if (posts.length === 0) {
                 return res.status(200).json({
-                    success: false,
+                    success: true,
                     data: [],
                     message: 'Nenhum post encontrado',
                 })
