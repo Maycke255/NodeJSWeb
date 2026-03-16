@@ -14,6 +14,8 @@ const crypto = require('crypto');
 const router = require('./routes/routes');
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
@@ -23,3 +25,5 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Projeto rodando na porta: <http://localhost>:${PORT}/home`)
 });
+
+module.exports = app;
