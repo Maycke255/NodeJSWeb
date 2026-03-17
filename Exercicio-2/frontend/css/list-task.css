@@ -137,6 +137,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: var(--shadow-sm);
@@ -158,6 +159,7 @@ main {
     font-weight: 600;
     color: var(--text-light);
     margin-bottom: 0.25rem;
+    margin-right: 1rem;
 }
 
 .task-list-description {
@@ -220,6 +222,7 @@ main {
     font-size: 0.85rem;
     padding: 0.5rem 1rem;
     transition: all 0.3s ease;
+    border-radius: 8px;
 }
 
 .btn-danger-custom:hover {
@@ -291,7 +294,7 @@ main {
 
     .task-list-item {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
     }
 
     .task-list-actions {

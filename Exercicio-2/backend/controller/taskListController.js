@@ -30,6 +30,32 @@ class FlowTaskController {
             });
         }
     }
+
+    acessAList (req, res) {
+        const ID = req.params.id
+        const getListTask = taskListModel.getTaskListById(ID);
+
+        try {
+            if (getListTask.items.length === 0) {
+                return res.status(200).json({
+                    success: true,
+                    data: [],
+                    message: 'Nenhuma tarefa adicionada a essa lista ainda.'
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                data: getListTask.items
+            });
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                data: [],
+                message: error.message
+            });
+        }
+    }
 }
 
-module.exports =  new FlowTaskController();
+module.exports = new FlowTaskController();
