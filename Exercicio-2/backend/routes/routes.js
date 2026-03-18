@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.get('/api/list-task', FlowTaskController.allList);
 router.get('/api/list-task/:id', FlowTaskController.acessAList);
-router.get('/api/delete-list-task/:id', FlowTaskControllerAdmin.delTaskList);
+router.delete('/api/admin/delete-list-task/:id', FlowTaskControllerAdmin.delTaskList);
+router.post('/api/admin/create-list-task', FlowTaskControllerAdmin.createTaskList);
 
 const FRONTEND_PAGES_GET = path.join(__dirname, '../../frontend/pages/');
 

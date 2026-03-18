@@ -18,6 +18,24 @@ class FlowTaskControllerAdmin {
             });
         }
     }
+
+    createTaskList (req, res) {
+        try {
+            const nameTask = req.body.nametask;
+             taskListModel.newListTask(nameTask);
+     
+             res.status(200).json({
+                 success: true,
+                 name: nameTask,
+                 message: 'Nova lista criada com sucesso!'
+             });
+        } catch (error) {
+            res.status(500).json({
+                succes: false,
+                message: 'Erro ao criar lista'
+            })
+        }
+    }
 }
 
 module.exports = new FlowTaskControllerAdmin();

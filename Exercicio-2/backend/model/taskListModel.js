@@ -8,13 +8,13 @@ class FlowTaskModel {
         this.tasks = [
             {
                 id: crypto.randomUUID(),
-                name: 'Tarefas de casa',
+                nameTask: 'Tarefas de casa',
                 items: [],
                 createAt: new Date()
             },
             {
                 id: crypto.randomUUID(),
-                name: 'Programação para esse fim de semana',
+                nameTask: 'Programação para esse fim de semana',
                 items: [],
                 createAt: new Date()
             }
@@ -44,12 +44,12 @@ class FlowTaskModel {
     newListTask (name) {
         const listTask = {
             id: crypto.randomUUID(),
-            name: name,
+            nameTask: name,
             items: [],
             createAt: new Date()
         }
 
-        this.tasks.push(listTask);
+        return this.tasks.push(listTask);
     }
 }
 
