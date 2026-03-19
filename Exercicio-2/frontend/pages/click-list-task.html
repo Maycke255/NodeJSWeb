@@ -1,30 +1,78 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Flow | </title>
+    <!-- Bootstrap 5.3 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/click-list-task.css">
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="/assets/icons/completed-task.png">
+    <title id="page-title-head">Task Flow | Carregando...</title>
 </head>
-
 <body>
+    <!-- NAVBAR -->
     <nav class="navbar navbar-dark bg-dark-custom">
         <div class="container-fluid">
             <span class="navbar-brand mb-0 h1 fs-5 fw-bold">Task Flow</span>
             <div class="navbar-nav ms-auto flex-row gap-4">
-                <a class="nav-link active" href="/">Home</a>
+                <a class="nav-link" href="/home">Home</a>
                 <a class="nav-link" href="/lists">Todas as Listas</a>
             </div>
         </div>
     </nav>
 
+    <!-- MAIN CONTAINER -->
     <main class="main-container">
+        <div class="container-fluid py-5">
+            <!-- Page Title -->
+            <h1 class="page-title mb-4" id="list-title">Carregando Lista...</h1>
 
+            <!-- Message Alert -->
+            <div id="message" class="message-alert mb-4"></div>
+
+            <!-- Add New Item Form (Always Visible) -->
+            <div class="add-item-form mb-4">
+                <div class="form-group-input">
+                    <input 
+                        type="text" 
+                        class="form-control form-control-dark" 
+                        id="inputNewItem"
+                        placeholder="Adicionar nova tarefa..."
+                    />
+                    <button class="btn btn-create-custom" id="addItemBtn">
+                        ✓ Adicionar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Items Container -->
+            <div id="items-container" class="items-wrapper">
+                <!-- Items will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Back Button -->
+            <div class="mt-5">
+                <a href="/lists" class="btn btn-outline-secondary-custom btn-lg fw-bold rounded-pill px-5 py-3">
+                    ← Voltar para Todas as Listas
+                </a>
+            </div>
+        </div>
     </main>
 
-    <script src="/src/click-list-task.js"></script>
-    
-</body>
+    <!-- FOOTER -->
+    <footer class="footer-custom">
+        <p>&copy; 2026 Task Flow. Todos os direitos reservados.</p>
+    </footer>
 
+    <script src="/src/click-list-task.js"></script>
+</body>
 </html>

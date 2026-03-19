@@ -7,15 +7,17 @@ class FlowTaskModel {
     constructor () {
         this.tasks = [
             {
-                id: crypto.randomUUID(),
+                id: "1",
                 nameTask: 'Tarefas de casa',
                 items: [],
                 createAt: new Date()
             },
             {
-                id: crypto.randomUUID(),
+                id: "2",
                 nameTask: 'Programação para esse fim de semana',
-                items: [],
+                items: [
+                    'Sair com Flávia'
+                ],
                 createAt: new Date()
             }
         ]

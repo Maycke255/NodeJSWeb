@@ -1,5 +1,4 @@
 function showMessage (text, type = 'success') {
-    console.log('Função mostrarMensagem chamada com:', text, type);
 
     const message = document.getElementById('message');
         console.log('message:', message);
@@ -9,11 +8,22 @@ function showMessage (text, type = 'success') {
         return;
     }
 
-    // Define a classe baseada no type
-    message.className = `message ${type}`;
-    message.textContent = text;
+      // ✅ Limpa qualquer timeout anterior
+    if (message.timeoutId) {
+        clearTimeout(message.timeoutId);
+    }
 
-    console.log('✅ Mensagem exibida:', text);
+    // Define a classe baseada no type
+    message.className = `message-alert ${type}`;
+    message.textContent = text;
+    message.style.display = 'block';
+
+
+    setTimeout(() => {
+        message.className = 'message-alert';   
+        message.style.display = 'none';           
+        message.textContent = '';               
+    }, 4000); 
 }
 
 async function deleteList(id) {
@@ -95,7 +105,7 @@ async function loadedListTask () {
 
             //REDIRECIONAMENTO AO CLICAR NA LISTA DE TAREFA ->
             document.querySelectorAll('.task-list-item').forEach((list) => {
-                list.addEventListener('click', (e) => {
+                list.addEventListener('click', () => {
                     const id = list.dataset.id
 
                     window.location.href = `/lists/${id}`;
@@ -124,11 +134,11 @@ async function loadedListTask () {
 document.addEventListener('DOMContentLoaded', () => {
     loadedListTask();
 
-    // ✅ Listener do botão "Nova Lista" fora do loadedListTask
+    //  Listener do botão "Nova Lista" fora do loadedListTask
     document.getElementById('newTaskList').addEventListener('click', (e) => {
         e.preventDefault();
 
-        // ✅ Guard: evita duplicar o formulário
+        //  Guard: evita duplicar o formulário
         if (document.querySelector('.task-list-create')) return;
 
         const listTasks = document.getElementById('lists-container');

@@ -35,10 +35,37 @@ class FlowTaskController {
         const ID = req.params.id
         const getListTask = taskListModel.getTaskListById(ID);
 
+        // // ✅ PRINTS DETALHADOS
+        // console.log('════════════════════════════════════');
+        // console.log('🔍 ID RECEBIDO NA ROTA:', ID);
+        // console.log('📋 TIPO DO ID:', typeof ID);
+        // console.log('════════════════════════════════════');
+        
+        // const allLists = taskListModel.allTasksList();
+        // console.log('📚 TODAS AS LISTAS:');
+        // allLists.forEach((list, index) => {
+        //     console.log(`  [${index}] ID: "${list.id}" | Nome: "${list.nameTask}"`);
+        //     console.log(`       Tipo: ${typeof list.id}`);
+        // });
+        // console.log('════════════════════════════════════');
+        
+        // console.log('✅ LISTA ENCONTRADA:', getListTask);
+        // console.log('════════════════════════════════════');
+
         try {
+            // ✅ Verifica se a lista existe ANTES de acessar .items
+            if (!getListTask) {
+                return res.status(404).json({
+                    success: false,
+                    data: [],
+                    message: 'Lista não encontrada'
+                });
+            }
+
             if (getListTask.items.length === 0) {
                 return res.status(200).json({
                     success: true,
+                    name: getListTask.nameTask,
                     data: [],
                     message: 'Nenhuma tarefa adicionada a essa lista ainda.'
                 });
@@ -46,6 +73,7 @@ class FlowTaskController {
 
             return res.status(200).json({
                 success: true,
+                name: getListTask.nameTask,
                 data: getListTask.items
             });
         } catch (error) {
