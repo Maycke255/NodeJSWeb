@@ -42,6 +42,11 @@ async function createNewTaskList () {
     try {
         const nametask = document.getElementById('inputNewList').value;
 
+        if (!nametask || nametask.trim() === '') {
+            showMessage('Digite um nome para a lista!', 'error');
+            return;
+        }
+
         const res = await fetch('/api/admin/create-list-task', {
             method: 'POST',   
             headers: { 'Content-Type': 'application/json' }, // ← Avisa: "vou te mandar JSON"
@@ -51,9 +56,11 @@ async function createNewTaskList () {
         const result = await res.json();
 
         if (result.success) {
+            const form = document.querySelector('.task-list-create');
+            if (form) form.remove();
+
             showMessage(result.message, "success");
             loadedListTask(); // ← Recarrega a lista
-            document.querySelector('.task-list-create').remove();
         } else {
             showMessage(result.message, "error");
         }
@@ -105,33 +112,6 @@ async function loadedListTask () {
                     deleteList(id);
                 });
             });
-
-            //BOTÃO CRIAR NOVA LISTA ->
-            document.getElementById('newTaskList').addEventListener('click', (e) => {
-                e.preventDefault();
-
-                listTasks.innerHTML += `
-                <div class="task-list-create mt-3 animate-slide-down">
-                    <label class="task-list-title mb-3">✏️ Digite o nome da lista de tarefas:</label>
-                    <input type="text" class="form-control form-control-dark mb-3" id="inputNewList" name="nametask" 
-                    placeholder="Ex: Tarefas do trabalho..." required>
-
-                    <div class="d-flex gap-2 justify-content-end w-100">
-                        <button class="btn btn-danger-custom" id="abortCreate">✕ Cancelar</button>
-                        <button class="btn btn-create-custom" id="createTaskList">✓ Criar Lista</button>
-                    </div>
-                </div>`
-
-                document.getElementById('abortCreate').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    document.querySelector('.task-list-create').remove();
-                });
-
-                document.getElementById('createTaskList').addEventListener('click', (e) => {
-                    e.preventDefault();
-                    createNewTaskList();
-                });
-            });
         } else {
             showMessage(result.message, 'error');
         }
@@ -143,4 +123,43 @@ async function loadedListTask () {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadedListTask();
+
+    // ✅ Listener do botão "Nova Lista" fora do loadedListTask
+    document.getElementById('newTaskList').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // ✅ Guard: evita duplicar o formulário
+        if (document.querySelector('.task-list-create')) return;
+
+        const listTasks = document.getElementById('lists-container');
+
+        listTasks.innerHTML += `
+        <div class="task-list-create mt-3 animate-slide-down">
+
+            <label class="task-list-title mb-3">✏️ Digite o nome da lista de tarefas:</label>
+
+            <input type="text" class="form-control form-control-dark mb-3" 
+                id="inputNewList" name="nametask" 
+                placeholder="Ex: Tarefas do trabalho..." required>
+
+            <div class="d-flex gap-2 justify-content-end w-100">
+
+                <button class="btn btn-danger-custom" id="abortCreate">✕ Cancelar</button>
+
+                <button class="btn btn-create-custom" id="createTaskList">✓ Criar Lista</button>
+
+            </div>
+
+        </div>`;
+
+        document.getElementById('abortCreate').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('.task-list-create').remove();
+        });
+
+        document.getElementById('createTaskList').addEventListener('click', (e) => {
+            e.preventDefault();
+            createNewTaskList();
+        });
+    });
 });
