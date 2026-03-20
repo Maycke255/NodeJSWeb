@@ -5,6 +5,7 @@
     --primary-dark: #5a1856;
     --danger-color: #ef4444;
     --success-color: #10b981;
+    --conclude-item-color: #1499f1;
     --bg-dark: #1f2937;
     --bg-darker: #111827;
     --bg-input-create: #310944;
@@ -128,6 +129,8 @@ main {
     border-left: 4px solid var(--primary-light);
     border-radius: 0.5rem;
     padding: 1.5rem;
+    padding-left: 8rem;
+    padding-right: 8rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -148,7 +151,7 @@ main {
     margin: 0;
 }
 
-.form-group-input .btn-create-custom {
+.form-group-input .btn-create-custom .btn-delete-item .btn-conclude-item {
     flex-shrink: 0;
     padding: 0.65rem 1.5rem;
     font-size: 0.95rem;
@@ -161,7 +164,7 @@ main {
     border-radius: 0.375rem !important;
     color: var(--text-light) !important;
     font-size: 0.95rem;
-    padding: 0.65rem 1rem;
+    padding: 0.65rem 3rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
 }
@@ -179,6 +182,19 @@ main {
     color: var(--text-light) !important;
 }
 
+.group-controller {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.img-icon {
+    width: 1rem;
+    height: auto;
+    margin-right: .5rem;
+}
+
 /* ======== ITEMS WRAPPER ======== */
 .items-wrapper {
     display: flex;
@@ -192,29 +208,25 @@ main {
     background-color: var(--bg-darker);
     border-left: 4px solid var(--primary-color);
     border-radius: 0.375rem;
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem 16rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    width: 100%;
     transition: all 0.3s ease;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
+    gap: 0;
+    position: relative;
+    min-height: 60px;
 }
 
 .item-card:hover {
     background-color: #1f2937;
     box-shadow: var(--shadow-md);
-    transform: translateX(4px);
 }
 
-.item-card-content {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    gap: 1rem;
-}
-
-/* ======== CUSTOM CHECKBOX ======== */
+/* ======== CHECKBOX (ABSOLUTE LEFT) ======== */
 .item-checkbox {
     appearance: none;
     -webkit-appearance: none;
@@ -224,9 +236,11 @@ main {
     border-radius: 4px;
     background-color: transparent;
     cursor: pointer;
-    position: relative;
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     transition: all 0.2s ease;
-    flex-shrink: 0;
 }
 
 .item-checkbox:hover {
@@ -249,12 +263,15 @@ main {
     transform: translate(-50%, -50%);
 }
 
-/* ======== ITEM TITLE ======== */
+/* ======== ITEM TITLE (CENTER) ======== */
 .item-title {
     font-size: 1.1rem;
     font-weight: 500;
     color: var(--text-light);
-    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
+    flex: 1;
 }
 
 /* ======== COMPLETED STATE ======== */
@@ -296,9 +313,13 @@ main {
     transform: translateY(0);
 }
 
+.mt-5 {
+    width: 100%;
+}
+
 .btn-outline-secondary-custom {
-    background-color: transparent;
-    color: var(--primary-color);
+    background-color: var(--primary-light);
+    color: var(--text-light);
     border: 1px solid var(--border-color);
     font-weight: 500;
     transition: all 0.3s ease;
@@ -310,7 +331,7 @@ main {
     border-color: var(--primary-color);
 }
 
-.btn-create-custom {
+.btn-create-custom, .btn-delete-item, .btn-conclude-item {
     background-color: var(--success-color);
     color: var(--text-light);
     border: none;
@@ -337,6 +358,9 @@ main {
     background-color: transparent;
     color: var(--danger-color);
     border: 1px solid var(--danger-color);
+    display: flex;
+    align-items: center;
+    justify-items: center;
     font-weight: 600;
     font-size: 0.875rem;
     padding: 0.5rem 1.25rem;
@@ -349,6 +373,27 @@ main {
     color: var(--text-light);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-conclude-items-custom {
+    background-color: transparent;
+    color: var(--conclude-item-color);
+    border: 1px solid var(--conclude-item-color);
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.btn-conclude-items-custom:hover {
+    background-color: var(--conclude-item-color);
+    color: var(--text-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(68, 156, 239, 0.3);
 }
 
 .btn-edit-custom {
@@ -411,29 +456,8 @@ main {
         font-size: 1.75rem;
     }
 
-    .navbar-nav {
-        flex-direction: column !important;
-        gap: 1rem !important;
-    }
-
-    .item-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .item-card-content {
-        width: 100%;
-        margin-bottom: 1rem;
-    }
-
-    .item-actions {
-        margin-left: 0;
-        width: 100%;
-        justify-content: flex-end;
-    }
-
-    .item-actions .btn {
-        flex: 1;
+    .add-item-form {
+        padding: 1rem;
     }
 
     .form-group-input {
@@ -441,12 +465,17 @@ main {
         gap: 0.5rem;
     }
 
-    .form-group-input .form-control-dark {
+    .form-group-input .form-control-dark,
+    .form-group-input .btn-create-custom {
         width: 100%;
     }
 
-    .form-group-input .btn-create-custom {
-        width: 100%;
+    .item-card {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .item-title {
+        margin-left: 3rem;
     }
 }
 
@@ -461,29 +490,6 @@ main {
 
     .navbar-nav .nav-link {
         font-size: 0.8rem;
-    }
-
-    .item-card {
-        padding: 1rem;
-    }
-
-    .item-card-content {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .item-actions {
-        flex-direction: column;
-        width: 100%;
-        gap: 0.5rem;
-        margin-left: 0;
-        margin-top: 1rem;
-    }
-
-    .item-actions .btn {
-        width: 100%;
-        padding: 0.5rem !important;
-        font-size: 0.75rem;
     }
 
     .add-item-form {
@@ -503,6 +509,10 @@ main {
     .btn-create-custom {
         padding: 0.5rem 1rem;
         font-size: 0.8rem;
+    }
+
+    .item-card {
+        padding: 1rem 1.5rem;
     }
 
     .container-fluid {

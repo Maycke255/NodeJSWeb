@@ -30,11 +30,7 @@ async function loadedItemsListTask () {
     try {
         // Se a URL é /lists/abc-123, isso retorna 'abc-123'
         const id = window.location.pathname.split('/')[2];
-
-        if (!id) {
-            showMessage('ID não encontrado!','error');
-            return;
-        }
+        const itemName = document.getElementById('inputNewItem').value;
 
         const res = await fetch(`/api/list-task/${id}`);
         const result = await res.json();
@@ -47,11 +43,32 @@ async function loadedItemsListTask () {
             const itemsContainer = document.getElementById('items-container');
             const dataItems = result.data;
 
-            if (dataItems.length === 0) {
-                itemsContainer.innerHTML = '';
-                itemsContainer.innerHTML = result.message;
+            if (!id) {
+                showMessage('ID não encontrado!','error');
                 return;
             }
+
+            if (dataItems.length === 0) {
+                itemsContainer.innerHTML = '';
+                const newDiv = document.createElement('div');
+                newDiv.className = 'message-alert success';
+                newDiv.id = 'messageTemporary';
+                newDiv.textContent = result.message;
+                itemsContainer.appendChild(newDiv);
+                return;
+            }
+
+            const messageTemporary = document.getElementById('messageTemporary');
+            // itemsContainer.remove(messageTemporary);
+
+            itemsContainer.innerHTML = dataItems.map((item) => `
+                <div class='item-card' id='itemCard' data-item-id=${item.id}>
+                    <input type="checkbox" id="itemCheckbox" class="item-checkbox" value=${item.id}>
+                    <label for="itemCheckbox" class="item-title">${item.title}</label>
+                </div>
+            `).join('');
+
+            
         } else {
             showMessage(result.message, 'error');
         }

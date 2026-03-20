@@ -1,6 +1,7 @@
 //Model, aqui e onde acontece a magica, e onde o backend trabalha
 //São responsaveis por executar as tarefas internas que o controller pede atravez das rotas
 const crypto = require('crypto');
+const { title } = require('process');
 
 class FlowTaskModel {
     //Array para armazenar a lista de tarefas
@@ -15,9 +16,18 @@ class FlowTaskModel {
             {
                 id: "2",
                 nameTask: 'Programação para esse fim de semana',
-                items: [
-                    'Sair com Flávia'
-                ],
+                items: [{
+                    id: '1',
+                    title: 'Sair com Flávia',
+                },
+                {
+                    id: '2',
+                    title: 'Pedalar',
+                },
+                {
+                    id: '3',
+                    title: 'Ir na feira'
+                }],
                 createAt: new Date()
             }
         ]
