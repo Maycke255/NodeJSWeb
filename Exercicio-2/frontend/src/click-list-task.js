@@ -26,11 +26,87 @@ function showMessage (text, type = 'success') {
     }, 4000); 
 }
 
+async function deleteItemList () {
+    const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked')
+    const listId = window.location.pathname.split('/')[2];
+
+    if (checkedItems.length === 0) {
+        showMessage('Selecione pelo menos um item para deletar!', 'error');
+        return;
+    }
+
+    if (!confirm("Tem certeza que deseja deletar este(s) item(ns) da lista?")) return;
+
+    for (const checkbox of checkedItems) {
+        const itemCard = checkbox.closest('.item-card');
+        const itemId = itemCard.getAttribute('data-item-id');
+        console.log(`🔍 Item ID pegado do HTML: "${itemId}" (tipo: ${typeof itemId})`);
+        console.log('Item Card:', itemCard);
+        console.log('data-item-id:', itemCard.getAttribute('data-item-id'));
+        console.log('ListId:', window.location.pathname.split('/')[2]);
+
+        try {
+            const res = await fetch (`/api/admin/delete-item-list/${listId}/items/${itemId}`,{
+                method: 'DELETE'
+            });
+            const result = await res.json();
+
+            if (result.success) {
+                showMessage(result.message, 'success');
+                loadedItemsListTask();
+            }
+        } catch (error) {
+            showMessage("Erro ao deletar item da lista!.", "error");
+            console.error(error);
+        }
+    }
+}
+
+async function createNewItem () {
+    try {
+        const newItem = document.getElementById('inputNewItem').value;
+        const id = window.location.pathname.split('/')[2];
+
+        if (!newItem || newItem.trim() === '') {
+            showMessage('Digite um nome para o novo item!', 'error');
+            return;
+        }
+
+        const res = await fetch('/api/admin/create-new-item', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }, // ← Avisa: "vou te mandar JSON"
+            body: JSON.stringify({ nameItem: newItem, listId: id }) // ← Converte o objeto em string JSON
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+            showMessage(result.message, 'success');
+            loadedItemsListTask();
+            document.getElementById('inputNewItem').value = '';
+            return;
+        }
+    }catch (error) {
+        showMessage('Erro ao adicionar item a lista', 'error');
+    }
+}
+
+async function markItemAsCompleted () {
+    const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked')
+    const listId = window.location.pathname.split('/')[2];
+    const newStatus = checkedItems.checked ? 'completed' : 'notCompleted';
+
+    if (checkedItems.length === 0) {
+        showMessage('Selecione pelo menos um item para concluir!', 'error');
+        return;
+    }
+
+}
+
 async function loadedItemsListTask () {
     try {
         // Se a URL é /lists/abc-123, isso retorna 'abc-123'
         const id = window.location.pathname.split('/')[2];
-        const itemName = document.getElementById('inputNewItem').value;
 
         const res = await fetch(`/api/list-task/${id}`);
         const result = await res.json();
@@ -62,12 +138,12 @@ async function loadedItemsListTask () {
             // itemsContainer.remove(messageTemporary);
 
             itemsContainer.innerHTML = dataItems.map((item) => `
-                <div class='item-card' id='itemCard' data-item-id=${item.id}>
-                    <input type="checkbox" id="itemCheckbox" class="item-checkbox" value=${item.id}>
+                <div class='item-card' id='itemCard' data-item-id="${item.id}">
+                    <input type="checkbox" id="itemCheckbox" class="item-checkbox" value="${item.id}"
+                    ${item.status === 'completed' ? 'checked' : ''}>
                     <label for="itemCheckbox" class="item-title">${item.title}</label>
                 </div>
             `).join('');
-
             
         } else {
             showMessage(result.message, 'error');
@@ -79,5 +155,17 @@ async function loadedItemsListTask () {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadedItemsListTask()
+    loadedItemsListTask();
+
+    document.getElementById('delItemBtn').addEventListener('click', async (ev) => {
+        ev.preventDefault();
+
+        deleteItemList();
+    });
+
+    document.getElementById('addItemBtn').addEventListener('click', async (ev) => {
+        ev.preventDefault();
+
+        createNewItem();
+    })
 });

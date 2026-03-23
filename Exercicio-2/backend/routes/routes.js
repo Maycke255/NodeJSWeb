@@ -10,9 +10,13 @@ router.get('/api/list-task', FlowTaskController.allList);
 router.get('/api/list-task/:id', FlowTaskController.acessAList);
 
 //Controller admin, ações de alterações
-router.delete('/api/admin/delete-list-task/:id', FlowTaskControllerAdmin.delTaskList);
 router.post('/api/admin/create-list-task', FlowTaskControllerAdmin.createTaskList);
+router.delete('/api/admin/delete-list-task/:id', FlowTaskControllerAdmin.delTaskList);
+router.post('/api/admin/create-new-item', FlowTaskControllerAdmin.createNewItem);
+router.delete('/api/admin/delete-item-list/:listId/items/:itemId', FlowTaskControllerAdmin.delItemTaskList);
+router.patch('/api/admin/update-item-status/:listId/items/:itemId', FlowTaskControllerAdmin.updateStatus);
 
+//Renderização de paginas
 const FRONTEND_PAGES_GET = path.join(__dirname, '../../frontend/pages/');
 
 router.get('/home', (req, res) => {
