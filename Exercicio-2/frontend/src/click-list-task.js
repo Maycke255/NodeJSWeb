@@ -101,6 +101,27 @@ async function markItemAsCompleted () {
         return;
     }
 
+    for (const checkbox of checkedItems) {
+        const itemCard = checkbox.closest('.item-card');
+        const itemId = itemCard.getAttribute('data-item-id');
+
+        try {
+            const res = await fetch(`/api/admin/update-item-status/${listId}/items/${itemId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' }, // ← Avisa: "vou te mandar JSON"
+                body: JSON.stringify({ status: 'completed' }) // ← Converte o objeto em string JSON
+            });
+            const result = await res.json();
+
+            if (result.success) {
+                showMessage(result.message, 'success');
+                loadedListTask();
+                return;
+            }
+        } catch (error) {
+            showMessage('Erro ao atualizar item', 'error');
+        }
+    }
 }
 
 async function loadedItemsListTask () {
@@ -134,14 +155,11 @@ async function loadedItemsListTask () {
                 return;
             }
 
-            const messageTemporary = document.getElementById('messageTemporary');
-            // itemsContainer.remove(messageTemporary);
-
             itemsContainer.innerHTML = dataItems.map((item) => `
-                <div class='item-card' id='itemCard' data-item-id="${item.id}">
+                <div class='item-card ${item.status}' id='itemCard' data-item-id="${item.id}">
                     <input type="checkbox" id="itemCheckbox" class="item-checkbox" value="${item.id}"
                     ${item.status === 'completed' ? 'checked' : ''}>
-                    <label for="itemCheckbox" class="item-title">${item.title}</label>
+                    <label for="itemCheckbox" class="item-title ${item.status}">${item.title}</label>
                 </div>
             `).join('');
             
@@ -167,5 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ev.preventDefault();
 
         createNewItem();
-    })
+    });
+
+    document.getElementById('concludeItemBtn').addEventListener('click', async (ev) => {
+        ev.preventDefault();
+
+        markItemAsCompleted();
+    });
 });
