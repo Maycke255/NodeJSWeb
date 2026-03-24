@@ -26,6 +26,33 @@ function showMessage (text, type = 'success') {
     }, 4000); 
 }
 
+async function updateStatus(itemId, listId, status, checkbox, addClass) {
+    try {
+        const res = await fetch(`/api/admin/update-item-status/${listId}/items/${itemId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        });
+        const result = await res.json();
+
+        if (result.success) {
+            const itemCard = checkbox.closest('.item-card');
+            if (addClass) {
+                itemCard.classList.add('completed');  // Verde só no botão
+            } else {
+                itemCard.classList.remove('completed');  // Remove no uncheck
+            }
+            showMessage(`Item ${status}!`, 'success');
+        } else {
+            checkbox.checked = !checkbox.checked;  // Reverte
+            showMessage(result.message, 'error');
+        }
+    } catch (error) {
+        checkbox.checked = !checkbox.checked;
+        console.error(error);
+    }
+}
+
 async function deleteItemList () {
     const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked')
     const listId = window.location.pathname.split('/')[2];
@@ -91,37 +118,21 @@ async function createNewItem () {
     }
 }
 
-async function markItemAsCompleted () {
-    const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked')
+async function markItemAsCompleted() {
+    const checkedItems = document.querySelectorAll('input[type="checkbox"]:checked');
     const listId = window.location.pathname.split('/')[2];
-    const newStatus = checkedItems.checked ? 'completed' : 'notCompleted';
 
     if (checkedItems.length === 0) {
-        showMessage('Selecione pelo menos um item para concluir!', 'error');
+        showMessage('Selecione itens para concluir!', 'error');
         return;
     }
 
     for (const checkbox of checkedItems) {
-        const itemCard = checkbox.closest('.item-card');
-        const itemId = itemCard.getAttribute('data-item-id');
-
-        try {
-            const res = await fetch(`/api/admin/update-item-status/${listId}/items/${itemId}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' }, // ← Avisa: "vou te mandar JSON"
-                body: JSON.stringify({ status: 'completed' }) // ← Converte o objeto em string JSON
-            });
-            const result = await res.json();
-
-            if (result.success) {
-                showMessage(result.message, 'success');
-                loadedListTask();
-                return;
-            }
-        } catch (error) {
-            showMessage('Erro ao atualizar item', 'error');
-        }
+        const itemId = checkbox.closest('.item-card').getAttribute('data-item-id');
+        await updateStatus(itemId, listId, 'completed', checkbox, true);  // ✅ Helper + addClass=true
     }
+
+    loadedItemsListTask();  // Reload final
 }
 
 async function loadedItemsListTask () {
@@ -156,12 +167,37 @@ async function loadedItemsListTask () {
             }
 
             itemsContainer.innerHTML = dataItems.map((item) => `
-                <div class='item-card ${item.status}' id='itemCard' data-item-id="${item.id}">
-                    <input type="checkbox" id="itemCheckbox" class="item-checkbox" value="${item.id}"
-                    ${item.status === 'completed' ? 'checked' : ''}>
-                    <label for="itemCheckbox" class="item-title ${item.status}">${item.title}</label>
+                <div class='item-card ${item.status}' data-item-id="${item.id}">
+                    <input type="checkbox" 
+                        id="itemCheckbox_${item.id}" 
+                        class="item-checkbox" 
+                        value="${item.id}"
+                        ${item.status === 'completed' ? 'checked' : ''}>
+                    <label for="itemCheckbox_${item.id}" class="item-title ${item.status}">${item.title}</label>
                 </div>
             `).join('');
+
+            // ✅ APÓS innerHTML, adiciona listeners (só desmarque!)
+            document.querySelectorAll('.item-checkbox').forEach(checkbox => {
+                checkbox.removeEventListener('change', checkbox._listener || (() => {}));  // Cleanup
+                
+                checkbox._listener = (e) => {  // Sem async (só visual no uncheck)
+                    const itemId = e.target.value;
+                    const listId = window.location.pathname.split('/')[2];
+                    const isCheckedNow = e.target.checked;
+                    
+                    console.log(`🔍 Checkbox ${itemId}: checked=${isCheckedNow}`);
+                    
+                    if (!isCheckedNow) {  // ✅ SÓ DESTMARQUE: PATCH + remove classe
+                        console.log('🔄 DESTMARCANDO: PATCH notCompleted');
+                        updateStatus(itemId, listId, 'notCompleted', e.target, false);  // Função helper
+                    } else {
+                        // ✅ MARCA: ABSOLUTAMENTE NADA (botão cuida)
+                        console.log('🚫 MARCANDO: Ignorado (use botão)');
+                    }
+                };
+                checkbox.addEventListener('change', checkbox._listener);
+            });
             
         } else {
             showMessage(result.message, 'error');

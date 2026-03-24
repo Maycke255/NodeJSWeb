@@ -122,7 +122,9 @@ class FlowTaskModel {
         //Pegando a lista
         const taskList = this.tasks[taskListId];
 
-        if (taskList === -1) {
+        const itemTaskListId = taskList.items.findIndex((item) => item.id === itemId) 
+
+        if (itemTaskListId === -1) {
             return { success: false, message: 'Item não encontrado!' };
         }
 
@@ -130,7 +132,7 @@ class FlowTaskModel {
             return { success: false, message: 'Status inválido!' };
         }
 
-        taskList.items[itemId].status = newStatus;
+        taskList.items[itemTaskListId].status = newStatus;
         return { success: true, message: `Status alterado para ${newStatus}!` };
     }
 }
