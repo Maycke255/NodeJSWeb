@@ -1,0 +1,4 @@
+$kind: collection
+name: Teste
+variables:
+  base-URL: ""
