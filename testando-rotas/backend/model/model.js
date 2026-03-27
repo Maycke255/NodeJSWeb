@@ -24,16 +24,19 @@ class Movies {
     }
 
     //-- POST -- CRIAR NOVO FILME
-    newMovie (title, year, gerne) {
+    newMovie(title, year, genre) {  // ✅ genre (não gerne)
         const movie = {
             id: Math.floor(Math.random() * 999999).toString(),
-            title: title,
-            year: year,
-            gerne: gerne
-        }
+            title,
+            year: parseInt(year),
+            genre  // ✅ genre
+        };
 
-        return this.movies.push(movie)
+        this.movies.push(movie);
+        return { success: true };  // ✅ Retorno consistente (não length do push)
     }
+
+    //-- PUT
 }
 
 module.exports = new Movies();
