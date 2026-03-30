@@ -10,6 +10,16 @@ class Movies {
                     'Ficção cientifica',
                     'Ação'
                 ]
+            },
+            {
+                id: '2',
+                title: 'Star Wars: Episódio VIII – Os Últimos Jedi',
+                year: 2017,
+                gerne: [
+                    'Aventura',
+                    'Ficção cientifica',
+                    'Ação'
+                ]
             }
         ];
     }
@@ -23,20 +33,59 @@ class Movies {
         return { success: true, data: this.movies }
     }
 
+    // -- GET -- OBTER FILME ESPECIFICO
+    findMovieById (id) {
+        return this.movies.find(movie => movie.id === id)
+    }
+
     //-- POST -- CRIAR NOVO FILME
-    newMovie(title, year, genre) {  // ✅ genre (não gerne)
+    newMovie(title, year, genre) { 
         const movie = {
             id: Math.floor(Math.random() * 999999).toString(),
             title,
             year: parseInt(year),
-            genre  // ✅ genre
+            genre  
         };
 
         this.movies.push(movie);
-        return { success: true };  // ✅ Retorno consistente (não length do push)
+        return { success: true, data: this.movies }; 
     }
 
-    //-- PUT
+    //-- PUT --
+    updateMovieCompleted (id, updatedMovie) {
+        const index = this.movies.findIndex(movie => movie.id === id);
+
+        if (index !== -1) {
+            this.movies[index] = { ...this.movies[index], ...updatedMovie }
+            return { success: true , data: this.movies[index], message: 'Filme atualizado com sucesso!' }
+        }
+
+        return { data: null, success: false, message: 'Erro ao atualizar filme' }
+    }
+
+    // -- PATCH --
+    updateMoviePartial (id, partialData) {
+        const movie = this.movies.findIndex(movie => movie.id === id);
+
+        if (movie === -1) {
+            return { success: false, message: 'Filme não encontrado' };
+        }
+
+        this.movies[movie] = { ...this.movies[movie], ...partialData };
+        return { success: true, data: this.movies[movie], message: 'Filme atualizado com sucesso!' }
+    }
+
+    // -- DELETE --
+    deleteMovieByID (id) {
+        const index = this.movies.findIndex(movie => movie.id === id);
+
+        if (index === -1) {
+            return { success: false, message: 'Filme não encontrado' };
+        }
+
+        this.movies.splice(index, 1);
+        return { success: true, data: this.movies, message: 'Filme excluido com sucesso!' };
+    }
 }
 
 module.exports = new Movies();
