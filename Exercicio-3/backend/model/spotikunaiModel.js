@@ -74,7 +74,7 @@ class SpotikunaiModel {
     }
 
     // -- PUT -- ATUALIZAR NOME E TAGS DA LISTA
-    updatePost (id, updates) {
+    updatePlaylist (id, updates) {
         const index = this.playlists.findIndex(playlist => playlist.playlistID === id);
 
         if (index === -1) {
@@ -83,5 +83,17 @@ class SpotikunaiModel {
 
         this.playlists[index] = { ...this.playlists[index], ...updates };
         return { success: true, data: this.playlists[index], message: `Dados da playlist ${this.playlists[index].name} atualizados com sucesso!` };
+    }
+
+    // -- DELETE -- EXCLUIR PLAYLIST
+    deletePlaylist (id) {
+        const index = this.playlists.findIndex(playlist => playlist.playlistID === id);
+
+        if (index === -1) {
+            return { success: false, data: [], message: 'Playlist informada indexistente.' };
+        }
+
+        this.playlists.splice(index, 1);
+        return { success: true, data: this.playlists, message: `Playlist ${this.playlists[index].name} excluida com sucesso!` };
     }
 }
