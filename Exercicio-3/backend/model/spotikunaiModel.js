@@ -1,3 +1,14 @@
+/* ​Crie uma aplicação Node.js usando Express para gerenciamento de playlists de música. A aplicação deverá ter atender os seguintes requisitos:
+
+Uma playlist deve ter, pelo menos, nome e uma lista de tags para classificá-la.
+Uma playlist deve ter uma lista de músicas, onde cada música deve ter, no mínimo, título, ano, artista e álbum.
+
+Deve ser possível obter uma lista de todas as playlists existentes, bem como uma playlist individualmente.
+Deve ser possível cadastrar novas playlists, com ou sem músicas nela.
+Deve ser possível atualizar o nome e a lista de tags de uma playlist.
+Deve ser possível excluir uma playlist.
+Deve ser possível adicionar e remover músicas em uma playlist. */
+
 const crypto = require('crypto');
 
 class SpotikunaiModel {
@@ -60,29 +71,93 @@ class SpotikunaiModel {
         return { success: true, data: this.playlists };
     }
 
+    // -- GET -- OBTER PLAYLIST ESPECIFICA, ACESSAR UMA PLAYLIST
+    getPlaylist (id) {
+        if (this.playlists.length === 0) {
+            return { success: true, message: 'Você não tem nenhuma playlist criada no momento.' };
+        }
+
+        const index = this.playlists.findIndex(playlist => playlist.playlistID === id);
+
+        if (index === -1) {
+            return { success: false, data: [], message: 'PLaylist informada indexistente!' }
+        }
+
+        return { success: true, data: this.playlists[index] }
+    }
+
     // -- POST -- CADASTRAR NOVA PLASYLIST
-    createNewPlaylist (name) {
+    createNewPlaylist (name, songs) {
         const newPlaylist = {
             playlistID: crypto.randomUUID(),
             name: name,
             tags: [],
-            playlist: []
+            playlist: songs !== undefined ? songs : []
         }
 
         this.playlists.push(newPlaylist);
         return { success: true, data: newPlaylist, message: 'Nova Playlist criada com sucesso!' }
     }
 
-    // -- PUT -- ATUALIZAR NOME E TAGS DA LISTA
-    updatePlaylist (id, updates) {
+    // -- POST -- ADICIONAR UMA NOVA MUSICA A PLAYLIST
+    addMusic (id, title, year, artist, album) {
         const index = this.playlists.findIndex(playlist => playlist.playlistID === id);
 
         if (index === -1) {
-            return { success: false, data: [], message: 'Playlist informada indexistente.' };
+            return { success: false, data: [], message: 'PLaylist informada indexistente!' }
         }
 
-        this.playlists[index] = { ...this.playlists[index], ...updates };
-        return { success: true, data: this.playlists[index], message: `Dados da playlist ${this.playlists[index].name} atualizados com sucesso!` };
+        const newMusic = {
+            songID: crypto.randomUUID(),
+            title: title,
+            year: year,
+            artist: artist,
+            album: album
+        }
+
+        this.playlists[index].playlist.push(newMusic);
+        return { success: true, data: this.playlists[index].playlist, message: `Música ${title} adicionada com sucesso a playlist ${this.playlists[index].name} ` }
+    }
+
+    //-- POST -- ADICIONAR TAGS A LISTA 
+    createNewTags (id, tags) {
+        const index = this.playlists.findIndex(playlist => playlist.playlistID === id);
+
+        if (index === -1) {
+            return { success: false, data: [], message: 'PLaylist informada indexistente!' }
+        }
+
+        if (!Array.isArray(tags)) return { success: false, message: 'Tags deve ser array' };
+        tags.forEach(tag => {
+            if (!this.playlists[index].tags.includes(tag)){
+                this.playlists[index].tags.push(tag);
+            } 
+        });
+        return { success: true, data: this.playlists[index].tags, message: `Tags adicionadas com sucesso a playlist ${this.playlists[index].name}!` }
+    }
+
+    // -- PUT -- ATUALIZAR NOME E TAGS DA PLAYLIST
+    updatePlaylist(id, updates) {
+        const index = this.playlists.findIndex(playlist => playlist.playlistID === id);
+
+        if (index === -1) {
+            return { success: false, data: null, message: 'Playlist inexistente!' };
+        }
+
+        const oldName = this.playlists[index].name;  // Salva para message
+
+        // Atualiza name se enviado
+        if (updates.name !== undefined) {
+            this.playlists[index].name = updates.name;
+        }
+
+        // Atualiza tags: substitui lista (remove duplicatas)
+        if (Array.isArray(updates.tags)) {
+            const newTags = updates.tags.filter(tag => !this.playlists[index].tags.includes(tag));  
+            this.playlists[index].tags = [...this.playlists[index].tags, ...newTags];
+        }
+
+        return { success: true, data: this.playlists[index], message: `Playlist "${oldName}" atualizada com sucesso!` };
     }
 
     // -- DELETE -- EXCLUIR PLAYLIST
@@ -90,10 +165,32 @@ class SpotikunaiModel {
         const index = this.playlists.findIndex(playlist => playlist.playlistID === id);
 
         if (index === -1) {
-            return { success: false, data: [], message: 'Playlist informada indexistente.' };
+            return { success: false, data: [], message: 'PLaylist informada indexistente!' }
+        }
+        const name = this.playlists[index].name;
+        this.playlists.splice(index, 1);
+        return { success: true, data: this.playlists, message: `Playlist ${name} excluida com sucesso!` };
+    }
+
+    // -- DELETE -- EXCLUIR MÚSICA DA PLAYLIST
+    deleteMusic (playListId, musicId) {
+        const index = this.playlists.findIndex(playlist => playlist.playlistID === playListId);
+
+        if (index === -1) {
+            return { success: false, data: [], message: 'PLaylist informada indexistente!' }
         }
 
-        this.playlists.splice(index, 1);
-        return { success: true, data: this.playlists, message: `Playlist ${this.playlists[index].name} excluida com sucesso!` };
-    }
+        const informedPlaylist = this.playlists[index];
+
+        const indexMusic = informedPlaylist.playlist.findIndex(music => music.songID === musicId);
+
+        if (indexMusic === -1) {
+            return { success: false, data: [], message: 'Musica informada indexistente!' }
+        }
+
+        informedPlaylist.playlist.splice(indexMusic, 1);
+        return { success: true, data: informedPlaylist.playlist, message: `Música ${informedPlaylist.playlist[indexMusic].title} excluida com sucesso da playlist ${informedPlaylist.name}!` }
+    } 
 }
+
+module.exports = new SpotikunaiModel();

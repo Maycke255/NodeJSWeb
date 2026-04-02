@@ -10,6 +10,7 @@ Deve ser possível excluir uma playlist.
 Deve ser possível adicionar e remover músicas em uma playlist. */
 const express = require('express');
 const path = require('path');
+const router = require('./router/router.js')
 
 const app = express();
 
