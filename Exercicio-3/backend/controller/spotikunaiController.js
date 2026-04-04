@@ -6,12 +6,31 @@ class SpotikunaiController {
             const result = SpotikunaiModel.allPlaylists();
     
             if (result) {
-                res.status(200).json(result);
+                return res.status(200).json(result);
             } else {
-                res.status(404).json(result);
+                return res.status(404).json(result);
             }
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
+                success: false,
+                error: error.message
+            });
+        }
+    }
+
+    getPlaylistById (req, res) {
+        try {
+            const { id } = req.params;
+
+            const result = SpotikunaiModel.getPlaylist(id);
+
+            if (result) {
+                return res.status(200).json(result);
+            } else {
+                return res.status(404).json(result);
+            }
+        } catch (error) {
+            return res.status(500).json({
                 success: false,
                 error: error.message
             });

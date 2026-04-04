@@ -23,7 +23,7 @@ app.use(router);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-    console.log(`Projeto rodando na porta: <http://localhost>:${PORT}/home`)
+    console.log(`Projeto rodando na porta: <http://localhost>:${PORT}`)
 });
 
 module.exports = app;
