@@ -128,11 +128,13 @@ class SpotikunaiModel {
         }
 
         if (!Array.isArray(tags)) return { success: false, message: 'Tags deve ser array' };
+
         tags.forEach(tag => {
             if (!this.playlists[index].tags.includes(tag)){
                 this.playlists[index].tags.push(tag);
             } 
         });
+
         return { success: true, data: this.playlists[index].tags, message: `Tags adicionadas com sucesso a playlist ${this.playlists[index].name}!` }
     }
 
@@ -150,6 +152,8 @@ class SpotikunaiModel {
         if (updates.name !== undefined) {
             this.playlists[index].name = updates.name;
         }
+
+        const arr = Object.values()
 
         // Atualiza tags: substitui lista (remove duplicatas)
         if (Array.isArray(updates.tags)) {
