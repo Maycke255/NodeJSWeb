@@ -153,8 +153,6 @@ class SpotikunaiModel {
             this.playlists[index].name = updates.name;
         }
 
-        const arr = Object.values()
-
         // Atualiza tags: substitui lista (remove duplicatas)
         if (Array.isArray(updates.tags)) {
             const newTags = updates.tags.filter(tag => !this.playlists[index].tags.includes(tag));  
