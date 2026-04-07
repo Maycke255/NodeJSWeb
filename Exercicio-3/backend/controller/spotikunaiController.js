@@ -5,7 +5,7 @@ class SpotikunaiController {
         try {       
             const result = SpotikunaiModel.allPlaylists();
     
-            if (result) {
+            if (result.success) {
                 return res.status(200).json(result);
             } else {
                 return res.status(404).json(result);
@@ -24,7 +24,7 @@ class SpotikunaiController {
 
             const result = SpotikunaiModel.getPlaylist(id);
 
-            if (result) {
+            if (result.success) {
                 return res.status(200).json(result);
             } else {
                 return res.status(404).json(result);

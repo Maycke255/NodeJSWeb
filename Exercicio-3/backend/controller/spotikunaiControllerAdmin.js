@@ -4,19 +4,18 @@ const SpotikunaiModel = require('../model/spotikunaiModel.js');
 class SpotikunaiControllerAdmin {
     createPlaylist (req, res) {
         try {
-            const name = req.body.name;
-            const songs = req.body.songs;
+            const { name, songs } = req.body || {};
 
             if (!name) {
                 return res.status(406).json({
                     success: false,
                     message: 'Resposta do campo name inadequada!'
-                })
+                });
             }
 
             const result = SpotikunaiModel.createNewPlaylist(name, songs);
 
-            if (result) {
+            if (result.success) {
                 return res.status(201).json(result);
             } else {
                 return res.status(406).json(result);
@@ -47,7 +46,7 @@ class SpotikunaiControllerAdmin {
 
             const result = spotikunaiModel.addMusic(id, title, year, artist, album);
 
-            if (result) {
+            if (result.success) {
                 return res.status(201).json(result);
             } else {
                 return res.status(406).json(result);
@@ -62,7 +61,7 @@ class SpotikunaiControllerAdmin {
 
     addNewTagsForPlaylist (req, res) {
         try {
-            const tags = req.body;
+            const { tags } = req.body;
             const { id } = req.params;
     
             if (!tags) {
@@ -74,7 +73,7 @@ class SpotikunaiControllerAdmin {
     
             const result = spotikunaiModel.createNewTags(id, tags);
     
-            if (result) {
+            if (result.success) {
                 return res.status(201).json(result);
             } else {
                 return res.status(406).json(result);
@@ -125,7 +124,7 @@ class SpotikunaiControllerAdmin {
 
             const result = spotikunaiModel.updatePlaylist(id, updates);
             
-            if (result) {
+            if (result.success) {
                 return res.status(200).json(result);
             } else {
                 return res.status(406).json(result);
@@ -144,7 +143,7 @@ class SpotikunaiControllerAdmin {
 
             const result = spotikunaiModel.deletePlaylist(id);
 
-            if (result) {
+            if (result.success) {
                 return res.status(200).json(result);
             } else {
                 return res.status(404).json(result);
@@ -159,11 +158,11 @@ class SpotikunaiControllerAdmin {
 
     delMusicById (req, res) {
         try {
-            const { playlistId, musicId } = req.params;
+            const { id: playlistId, songId: musicId } = req.params;
             
             const result = spotikunaiModel.deleteMusic(playlistId, musicId);
             
-            if (result) {
+            if (result.success) {
                 return res.status(200).json(result);
             } else {
                 return res.status(404).json(result);

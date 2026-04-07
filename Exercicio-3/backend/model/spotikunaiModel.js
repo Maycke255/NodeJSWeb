@@ -159,7 +159,7 @@ class SpotikunaiModel {
             this.playlists[index].tags = [...this.playlists[index].tags, ...newTags];
         }
 
-        return { success: true, data: this.playlists[index], message: `Playlist "${oldName}" atualizada com sucesso!` };
+        return { success: true, data: this.playlists[index], message: `Playlist ${oldName} atualizada com sucesso!` };
     }
 
     // -- DELETE -- EXCLUIR PLAYLIST
@@ -190,8 +190,9 @@ class SpotikunaiModel {
             return { success: false, data: [], message: 'Musica informada indexistente!' }
         }
 
+        const musicTitle = informedPlaylist.playlist[indexMusic].title;
         informedPlaylist.playlist.splice(indexMusic, 1);
-        return { success: true, data: informedPlaylist.playlist, message: `Música ${informedPlaylist.playlist[indexMusic].title} excluida com sucesso da playlist ${informedPlaylist.name}!` }
+        return { success: true, data: informedPlaylist.playlist, message: `Música ${musicTitle} excluida com sucesso da playlist ${informedPlaylist.name}!` }
     } 
 }
 
