@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 
-class ModelMuter {
+class loginSystemModel {
     constructor () {
         this.users = [
             { 
@@ -17,36 +17,34 @@ class ModelMuter {
     }
 
     //POST register
-    register (id, username, password) {
-        const userAlreadyExists = this.users.findIndex(userId => userId.id === id);
+    register (username, password) {
+        const userAlreadyExists = this.users.find(user => user.username === username);
 
         if (userAlreadyExists) {
-            return { success: false, message: 'Usuario já cadastrado', data: [] }
+            return { success: false, message: 'Usuario já cadastrado!', data: [] }
         }
 
-        const newUser = { username, password }
+        const newUser = {id: crypto.randomUUID(), username, password }
         this.users.push(newUser);
 
-        return { success: true, message: 'Usuario cadastrado com sucesso', data: this.users }
+        return { success: true, message: 'Usuario cadastrado com sucesso\nCarregando', data: this.users }
     }
 
     //POST login
-    login (id, username, password) {
-        const userAlreadyExists = this.users.findIndex(userId => userId.id === id);
+    login (username, password) {
+        const user = this.users.find(user => user.username === username);
 
-        if (userAlreadyExists === -1) {
-            return { success: false, message: 'Usuario não cadastrado!', data: [] }
+        if (!user) { 
+            return { success: false, message: 'Usuário não cadastrado!', data: [] };
         }
 
-        const userPassword = this.users[userAlreadyExists].password;
-        if (password !== userPassword) {
-            return { success: false, message: 'Senha incorreta', data: [] }
+        if (password !== user.password) {
+            return { success: false, message: 'Senha incorreta!', data: [] }
         }
 
-        return { success: true, message: 'Login efetuado com sucesso', data: { user: username, password: password } }
+        return { success: true, message: 'Login efetuado com sucesso\nCarregando', data: user }
     }
 
-    //GET logout
 }
 
-module.exports = new ModelMuter();
+module.exports = new loginSystemModel();

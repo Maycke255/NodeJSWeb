@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <h1>Efetue login</h1>
+    <br><br>
+    <div id="message"></div>
+    <br>
+    <h2>Entre</h2>
+    <form id="formLogin" action="/auth/login" method="POST">
+        <label for="username-login">Username:</label>
+        <input type="text" id="username-login" name="username" required>
+        <br>
+        <label for="password-login">Password:</label>
+        <input type="password" id="password-login" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+
+    <hr>
+
+    <h2>Registre-se</h2>
+    <form id="formRegister" action="/auth/register" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username-register" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password-register" name="password" required>
+        <br>
+        <button type="submit">Registrar</button>
+    </form>
+
+    <script src="/index.js"></script>
+</body>
+
+</html>
