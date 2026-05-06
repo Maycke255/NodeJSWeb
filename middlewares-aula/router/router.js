@@ -16,12 +16,12 @@ router.post('/auth/login', controller.loginUser);
 router.get('/auth/dashboard', authMiddleware, dashboardController.dashboard);
 
 //GET OBTER USUARIO
-router.get('/auth/user', (req, res) => {
+router.get('/auth/user', authMiddleware, (req, res) => {
     res.json({ data: req.session.currentUser || 'Visitante'});
 })
 
 //GET LOGOUT
-router.get('/auth/logout', authMiddleware, controller.logout);
+router.post('/auth/logout', authMiddleware, controller.logout);
 
 //GET HOME
 router.get('/index', (req, res) => {

@@ -63,19 +63,11 @@ class LoginSystemController {
 
     }
 
-    logout (req, res) {
-        try {
-            setTimeout(() => {
-                res.redirect('/home');
-            }, 1000 * 2);
-        } catch (error) {
-            console.log('Erro: ', error);
-            return res.status(500).json({
-                success: false,
-                message: 'Erro interno',
-                error: error.message
-            });
-        }
+    logout(req, res) {
+        req.session.destroy((err) => {  // ← Limpe session!
+            if (err) return res.status(500).json({ success: false });
+            res.json({ success: true });  // ← JSON pro fetch
+        });
     }
 }
 
