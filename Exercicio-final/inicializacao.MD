@@ -26,6 +26,8 @@
 14. [Git](#14---git)
 15. [Checklist final](#15---checklist-final)
 
+> 📦 **Banco de dados (PostgreSQL + Prisma)** está num arquivo separado: [banco-de-dados.MD](./banco-de-dados.MD)
+
 ---
 
 ## 0 - Antes de começar
