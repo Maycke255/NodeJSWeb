@@ -25,6 +25,7 @@
 13. [Qualidade de código (lint, format, testes)](#13---qualidade-de-código)
 14. [Git](#14---git)
 15. [Checklist final](#15---checklist-final)
+16. [Extra: Git na prática (comandos e tags de commit)](#16---extra-git-na-prática)
 
 > 📦 **Banco de dados (PostgreSQL + Prisma)** está num arquivo separado: [banco-de-dados.MD](./banco-de-dados.MD)
 
@@ -799,6 +800,8 @@ coverage/
 
 Commits **pequenos e frequentes** são melhores que um commit gigante no final.
 
+> 📚 Lista completa de tags e os comandos do dia a dia (clone, pull, push, branches, desfazer...) na [seção 16](#16---extra-git-na-prática).
+
 **package-lock.json** → **sempre** vai para o git. Ele garante que todos instalem exatamente as mesmas versões.
 Para instalar a partir dele (ex: depois de clonar), use `npm ci`.
 
@@ -820,3 +823,278 @@ Para instalar a partir dele (ex: depois de clonar), use `npm ci`.
 - [ ] ESLint/Prettier (ou Biome) configurados
 - [ ] Pelo menos um teste rodando
 - [ ] `README.md` explicando como instalar e rodar o projeto
+
+---
+
+## 16 - Extra: Git na prática
+
+O **Git** é um sistema de **controle de versão**: ele guarda o histórico de tudo que muda no projeto, como
+"pontos de salvamento" (os **commits**). Dá para voltar no tempo, trabalhar em várias coisas ao mesmo tempo
+(**branches**) e sincronizar com um repositório remoto (**GitHub**, GitLab...).
+
+- **Git** → a ferramenta, roda na sua máquina.
+- **GitHub** → um site que guarda repositórios Git na nuvem (o "remoto").
+
+### 16.1 - As 3 áreas do Git (entenda isso e o resto fica fácil)
+
+```
+ Working Directory  ──git add──▶  Staging Area  ──git commit──▶  Repositório local  ──git push──▶  Remoto (GitHub)
+ (seus arquivos)                  (o que vai no                  (histórico na                    (histórico na
+                                   próximo commit)                sua máquina)                     nuvem)
+                    ◀──────────────────────────── git pull ─────────────────────────────────────────
+```
+
+- **Working directory** → os arquivos como estão agora no seu editor.
+- **Staging** → a "caixa" onde você separa o que vai entrar no próximo commit.
+- **Commit** → salva a caixa no histórico **local**. Ainda não foi para o GitHub!
+- **Push** → envia seus commits para o remoto. **Pull** → traz os commits do remoto para você.
+
+### 16.2 - Configuração inicial (só uma vez por máquina)
+
+```bash
+git config --global user.name "Seu Nome"
+git config --global user.email "seu@email.com"   # use o mesmo e-mail da conta do GitHub
+git config --global init.defaultBranch main      # branch padrão se chama "main" (e não "master")
+git config --global pull.rebase false            # pull faz "merge" (evita o aviso chato do pull)
+git config --global core.editor "code --wait"    # usa o VS Code para editar mensagens
+
+git config --list                                # confere as configurações
+```
+
+### 16.3 - Comandos básicos do dia a dia
+
+| Comando                         | O que faz                                                           |
+| ------------------------------- | ------------------------------------------------------------------- |
+| `git init`                      | Transforma a pasta atual em um repositório Git.                     |
+| `git status`                    | Mostra o que mudou, o que está no staging e em qual branch você está. **Use sempre!** |
+| `git add arquivo.ts`            | Coloca um arquivo no staging.                                       |
+| `git add .`                     | Coloca **todas** as alterações da pasta no staging.                 |
+| `git commit -m "feat: mensagem"`| Cria o commit com o que está no staging.                            |
+| `git commit -am "mensagem"`     | `add` + `commit` juntos (só para arquivos que o Git **já conhecia**; arquivos novos ficam de fora). |
+| `git log --oneline`             | Histórico resumido (um commit por linha).                           |
+| `git log --oneline --graph --all` | Histórico em "árvore", mostrando todas as branches.               |
+| `git diff`                      | Mostra o que mudou e **ainda não** foi para o staging.              |
+| `git diff --staged`             | Mostra o que está no staging (o que vai no próximo commit).         |
+
+Fluxo mais comum:
+
+```bash
+git status                          # o que mudou?
+git add .                           # separa tudo
+git commit -m "feat: cria rota de login"
+git push                            # manda pro GitHub
+```
+
+### 16.4 - Repositório remoto (GitHub)
+
+**a) Clonar um projeto que já existe** (baixa tudo, com o histórico, e já deixa o remoto configurado):
+
+```bash
+git clone https://github.com/usuario/repositorio.git            # cria a pasta "repositorio"
+git clone https://github.com/usuario/repositorio.git minha-pasta # escolhe o nome da pasta
+git clone -b dev https://github.com/usuario/repositorio.git      # clona já na branch "dev"
+```
+
+> Depois de clonar um projeto Node: `npm ci` (ou `npm install`) e criar o `.env` a partir do `.env.example`.
+
+**b) Ligar um projeto local a um repositório novo do GitHub** (crie o repositório **vazio** no site, sem README):
+
+```bash
+git remote add origin https://github.com/usuario/repositorio.git  # "origin" é o apelido padrão do remoto
+git branch -M main                                                 # garante que a branch se chama main
+git push -u origin main                                            # primeiro push
+```
+
+- O **`-u`** (ou `--set-upstream`) liga a sua branch local à do remoto. Só precisa **na primeira vez**;
+  depois é só `git push` e `git pull`.
+
+Comandos do remoto:
+
+| Comando                              | O que faz                                                        |
+| ------------------------------------ | ---------------------------------------------------------------- |
+| `git remote -v`                      | Lista os remotos configurados (e suas URLs).                     |
+| `git remote set-url origin <url>`    | Troca a URL do remoto (ex: mudou o nome do repositório).         |
+| `git push`                           | Envia seus commits para o remoto.                                |
+| `git pull`                           | Baixa os commits do remoto **e junta** com os seus (`fetch` + `merge`). |
+| `git fetch`                          | Só **baixa** as novidades, sem mexer nos seus arquivos. Bom para "espiar" antes. |
+| `git push origin nome-da-branch`     | Envia uma branch específica.                                     |
+
+> 💡 **Regra de ouro:** faça `git pull` **antes** de começar a trabalhar e antes de dar `push`.
+> Se o remoto tiver commits que você não tem, o `push` é **recusado** (`rejected ... fetch first`).
+
+### 16.5 - Forçar push e forçar pull (⚠️ cuidado!)
+
+**Forçar push** → sobrescreve o histórico do remoto com o seu. Usado quando você **alterou commits que já
+tinham sido enviados** (ex: com `commit --amend` ou `reset`).
+
+```bash
+git push --force-with-lease   # ✅ prefira este: só força se ninguém mandou nada novo nesse meio tempo
+git push --force              # ⚠️ força sempre, pode APAGAR commits de outras pessoas
+```
+
+> Nunca force push na `main` de um projeto em equipe. Em branch só sua, tudo bem.
+
+**Forçar pull** → jogar fora **tudo** que você tem local e deixar igual ao remoto:
+
+```bash
+git fetch origin
+git reset --hard origin/main  # ⚠️ apaga suas alterações e commits locais que não foram enviados
+git clean -fd                 # (opcional) apaga também arquivos/pastas novos que o Git não rastreia
+```
+
+> Não existe `git pull --force` que faça isso. O `reset --hard` **não tem volta** para alterações que
+> nunca foram commitadas. Na dúvida, faça um `git stash` antes (seção 16.8).
+
+### 16.6 - Branches (ramificações)
+
+Uma branch é uma **linha paralela** de trabalho. Você cria uma para cada funcionalidade/correção, trabalha
+nela sem medo de quebrar a `main`, e depois junta (merge).
+
+| Comando                          | O que faz                                                    |
+| -------------------------------- | ------------------------------------------------------------ |
+| `git branch`                     | Lista as branches locais (a atual tem `*`).                  |
+| `git branch -a`                  | Lista também as branches do remoto.                          |
+| `git switch -c feat/login`       | **Cria** a branch e já vai para ela.                         |
+| `git switch main`                | Troca para a branch `main`.                                  |
+| `git merge feat/login`           | Junta a `feat/login` **na branch em que você está**.         |
+| `git branch -d feat/login`       | Apaga a branch local (só se já foi juntada).                 |
+| `git branch -D feat/login`       | Apaga a branch local **à força**.                            |
+| `git push origin --delete feat/login` | Apaga a branch no remoto.                               |
+
+> Em tutoriais antigos aparece `git checkout -b nome` (= `git switch -c nome`) e `git checkout nome`
+> (= `git switch nome`). Funcionam igual, o `switch` só é mais claro.
+
+Fluxo com branch:
+
+```bash
+git switch main && git pull           # começa da main atualizada
+git switch -c feat/cadastro-usuario   # cria a branch da tarefa
+# ... programa, add, commit (quantas vezes quiser) ...
+git push -u origin feat/cadastro-usuario
+# no GitHub: abre um Pull Request → revisa → merge
+git switch main && git pull           # traz o merge para a sua main
+git branch -d feat/cadastro-usuario   # limpa a branch local
+```
+
+### 16.7 - Conflitos de merge
+
+Acontece quando **duas pessoas (ou duas branches) mudaram a mesma linha**. O Git não sabe qual manter e marca no arquivo:
+
+```
+<<<<<<< HEAD
+const PORT = 3000;          ← a sua versão
+=======
+const PORT = 8080;          ← a versão que está chegando
+>>>>>>> feat/porta
+```
+
+Para resolver:
+
+1. Edite o arquivo deixando o código como deve ficar e **apague as marcações** (`<<<<<<<`, `=======`, `>>>>>>>`).
+   O VS Code mostra botões *"Accept Current / Incoming / Both"* que ajudam.
+2. `git add arquivo.ts`
+3. `git commit` (ou `git merge --continue`)
+
+> Se se perdeu: `git merge --abort` desfaz o merge e volta para como estava antes.
+
+### 16.8 - Desfazendo coisas (o "Ctrl+Z" do Git)
+
+| Situação                                                  | Comando                                    |
+| --------------------------------------------------------- | ------------------------------------------ |
+| Descartar alterações de um arquivo (volta ao último commit) | `git restore arquivo.ts` ⚠️ perde as alterações |
+| Tirar um arquivo do staging (desfaz o `add`)              | `git restore --staged arquivo.ts`          |
+| Errei a mensagem do último commit (ainda **não** dei push) | `git commit --amend -m "nova mensagem"`   |
+| Esqueci um arquivo no último commit (ainda **não** dei push) | `git add arquivo.ts` + `git commit --amend --no-edit` |
+| Desfazer o último commit, **mantendo** as alterações      | `git reset --soft HEAD~1`                  |
+| Desfazer o último commit e **apagar** as alterações       | `git reset --hard HEAD~1` ⚠️               |
+| Desfazer um commit que **já foi para o remoto**           | `git revert <hash>` (cria um commit "ao contrário", sem reescrever o histórico) |
+| Parar de rastrear um arquivo (ex: `.env` commitado sem querer) | `git rm --cached .env` (o arquivo continua na sua pasta) |
+
+- O **`<hash>`** é o código do commit que aparece no `git log --oneline` (ex: `95c0ab6`).
+- **`HEAD`** = o commit em que você está. **`HEAD~1`** = um antes dele.
+- Já deu push? Prefira `revert`. Usar `reset`/`amend` depois do push obriga a fazer **force push**.
+
+**Stash** → guarda as alterações numa "gaveta" temporária, deixando a pasta limpa (útil para trocar de branch
+no meio de algo ou para dar `pull` sem conflito):
+
+```bash
+git stash            # guarda tudo
+git stash list       # lista o que está guardado
+git stash pop        # devolve o último e tira da gaveta
+git stash drop       # descarta o último guardado
+```
+
+### 16.9 - Autenticação no GitHub (HTTPS x SSH)
+
+O GitHub **não aceita mais a senha da conta** no terminal. Duas opções:
+
+- **HTTPS** (`https://github.com/...`) → no Windows, o **Git Credential Manager** (vem com o Git) abre o
+  navegador para logar na primeira vez e salva o acesso. Em outros casos, use um **Personal Access Token**
+  (GitHub → Settings → Developer settings) no lugar da senha.
+- **SSH** (`git@github.com:usuario/repo.git`) → configura uma chave uma vez e nunca mais pede login:
+
+```bash
+ssh-keygen -t ed25519 -C "seu@email.com"   # gera a chave (pode dar Enter em tudo)
+cat ~/.ssh/id_ed25519.pub                  # copie e cole em GitHub → Settings → SSH and GPG keys
+ssh -T git@github.com                      # testa: "Hi usuario! You've successfully authenticated"
+```
+
+### 16.10 - Tags de commit (Conventional Commits)
+
+Formato: **`tipo(escopo opcional): descrição curta`**
+
+```
+feat: adiciona rota de cadastro de usuário
+fix(auth): corrige validação do token expirado
+docs: adiciona seção de Git no inicializacao.MD
+```
+
+| Tag          | Quando usar                                                                 | Exemplo                                         |
+| ------------ | --------------------------------------------------------------------------- | ----------------------------------------------- |
+| `feat`       | **Nova funcionalidade** para o usuário.                                     | `feat: cria endpoint de listagem de posts`      |
+| `fix`        | **Correção de bug.**                                                        | `fix: corrige erro 500 ao buscar usuário inexistente` |
+| `docs`       | Só documentação (README, `.MD`, comentários).                               | `docs: explica variáveis do .env.example`       |
+| `style`      | Formatação que **não muda o código** (espaços, aspas, ponto e vírgula). Não é CSS! | `style: aplica prettier nos controllers`  |
+| `refactor`   | Melhora/reorganiza o código **sem mudar o comportamento** nem corrigir bug. | `refactor: separa app.ts do server.ts`          |
+| `perf`       | Melhoria de **desempenho**.                                                 | `perf: adiciona índice em posts.authorId`       |
+| `test`       | Cria ou ajusta **testes**.                                                  | `test: adiciona testes da rota /health`         |
+| `build`      | Sistema de build ou **dependências** (package.json, tsconfig, vite).        | `build: atualiza prisma para 7.10`              |
+| `ci`         | Arquivos de **integração contínua** (GitHub Actions etc.).                  | `ci: roda testes a cada push`                   |
+| `chore`      | **Manutenção** geral que não entra nas outras (configs, .gitignore, scripts). | `chore: adiciona dist ao .gitignore`          |
+| `revert`     | Desfaz um commit anterior.                                                  | `revert: desfaz "feat: cria rota de login"`     |
+
+**Mudança que quebra compatibilidade** (*breaking change*): coloque **`!`** depois do tipo.
+
+```
+feat!: troca o id dos usuários de número para uuid
+```
+
+Boas práticas da mensagem:
+
+- Escreva no **imperativo/presente** e curto: *"adiciona"*, *"corrige"* (e não *"adicionei"*, *"corrigindo"*).
+- Até ~72 caracteres na primeira linha. Precisa explicar mais? Use `git commit` (sem `-m`) e escreva um
+  corpo depois de uma linha em branco.
+- **Um assunto por commit.** Se a mensagem precisou de "e" (*"cria login **e** corrige cadastro"*), provavelmente
+  eram dois commits.
+- Nome de branch também pode seguir o padrão: `feat/login`, `fix/validacao-email`, `docs/readme`.
+
+### 16.11 - Cola rápida
+
+```bash
+# Projeto novo → GitHub
+git init
+git add . && git commit -m "chore: inicia projeto"
+git remote add origin https://github.com/usuario/repo.git
+git push -u origin main
+
+# Dia a dia
+git pull
+git add . && git commit -m "feat: ..."
+git push
+
+# Baixar um projeto
+git clone https://github.com/usuario/repo.git
+
+# "Socorro, quero deixar igual ao GitHub"
+git fetch origin && git reset --hard origin/main
+```
