@@ -81,6 +81,7 @@ meu-projeto/
 │   ├── package.json
 │   └── tsconfig.json
 ├── frontend/                  # criado pelo Vite (ver seção 11)
+├── Arquivos de config de pacotes - webpack.config.js, babel.config.js, vite.config.js, etc
 ├── .gitignore
 └── README.md
 ```
