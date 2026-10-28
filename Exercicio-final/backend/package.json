@@ -1,13 +1,13 @@
 {
-  "name": "exercicio-final",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch ./backend/server.ts",
+    "dev": "tsx watch --env-file=.env src/server.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "start": "node ./dist/server.js"
+    "start": "node --env-file=.env dist/server.js"
   },
   "keywords": [],
   "type": "module",

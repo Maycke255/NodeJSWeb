@@ -162,7 +162,26 @@ postgresql://USUARIO:SENHA@HOST:PORTA/NOME_DO_BANCO?schema=public
 
 ## 2 - Instalando o Prisma no projeto
 
+### Onde instalar? Junto do `package.json` do servidor
+
+O Prisma é **dependência do servidor**: quem conversa com o banco é a API, nunca o navegador. Então ele vai
+no **mesmo `package.json` do express**, onde quer que ele esteja (ver seção 1 do `inicializacao.MD`):
+
+| Estrutura do projeto                                     | Onde fica o `package.json` do servidor | Onde instalar o Prisma |
+| -------------------------------------------------------- | -------------------------------------- | ---------------------- |
+| **A)** Um projeto só (só API, ou front HTML/CSS/JS servido pelo express) | Na **raiz**        | Na **raiz**            |
+| **B)** Front com Vite/React em `frontend/` + `backend/`, cada um com seu `package.json` | Em `backend/` | Em **`backend/`** (`cd backend` antes) |
+
+- A pasta `prisma/`, o `prisma.config.ts` e o `.env` (com a `DATABASE_URL`) ficam **ao lado desse `package.json`**.
+- Os comandos `npm i ...` e `npx prisma ...` são rodados **nessa mesma pasta**. Se rodar em outra, aparece
+  `Could not find Prisma Schema` ou um `node_modules` novo onde não devia.
+- No formato B, o `package.json` do `frontend/` **nunca** recebe o Prisma.
+
+### Comandos
+
 ```bash
+# (formato B: cd backend antes)
+
 # Dependências de produção (o app precisa delas rodando)
 npm i @prisma/client@7 @prisma/adapter-pg@7 pg
 
@@ -280,7 +299,8 @@ datasource db {
 ```
 
 - **output** → caminho relativo ao `schema.prisma`. No Prisma 7 o client não vai mais para o `node_modules`.
-  Se o seu código fica em `backend/`, use `"../backend/generated/prisma"`.
+  O `"../src/generated/prisma"` sai da pasta `prisma/` e entra na `src/` que está ao lado dela. Se o seu código
+  estiver em outra pasta (ex: `backend/` no formato A), ajuste: `"../backend/generated/prisma"`.
 - **importFileExtension = "js"** → ⚠️ **importante para projetos que usam `tsc` + `node dist/...`**. Sem essa
   linha, o código gerado importa arquivos com `.ts` no final; funciona no `tsx` (dev), mas depois do
   `npm run build` o `node` **quebra** com `ERR_MODULE_NOT_FOUND ... enums.ts`.
@@ -971,6 +991,7 @@ npx prisma studio
 
 | Erro / Sintoma                                                       | Causa e solução                                                                 |
 | -------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `Could not find Prisma Schema` / `Missing script` / `node_modules` onde não devia | Rodou o comando fora da pasta do `package.json` do servidor (seção 2). |
 | `Can't reach database server at localhost:5432`                      | O Postgres não está rodando, ou host/porta errados na URL. Suba o banco (seção 1). |
 | `Authentication failed against database server`                      | Usuário/senha errados na `DATABASE_URL`. Senha com caracteres especiais precisa ser codificada. |
 | `Environment variable not found: DATABASE_URL`                       | Faltou o `import "dotenv/config"` no `prisma.config.ts` ou o `.env` não existe.  |
@@ -991,6 +1012,7 @@ npx prisma studio
 ### Comecei um projeto novo
 
 - [ ] Postgres rodando (prisma dev, Docker, local ou nuvem)
+- [ ] Terminal na pasta do `package.json` do servidor (raiz ou `backend/`, seção 2)
 - [ ] `npm i @prisma/client@7 @prisma/adapter-pg@7 pg` e `npm i -D prisma@7 dotenv`
 - [ ] `npx prisma init --datasource-provider postgresql`
 - [ ] Arquivo com o nome `prisma.config.ts`, com `import "dotenv/config"`
@@ -1015,6 +1037,7 @@ npx prisma generate                                  # 3. atualiza os tipos
 ### Clonei o projeto em outra máquina
 
 ```bash
+cd backend                  # (só no formato B)
 npm install                 # o postinstall já roda o prisma generate
 cp .env.example .env        # e preencho a DATABASE_URL
 npx prisma migrate dev      # cria as tabelas no meu banco local
@@ -1024,6 +1047,7 @@ npx prisma db seed          # (opcional) dados iniciais
 ### Vou publicar (produção)
 
 ```bash
+cd backend                  # (só no formato B)
 npm ci
 npx prisma migrate deploy   # aplica as migrations (NUNCA use migrate dev ou reset em produção)
 npm run build

@@ -74,10 +74,14 @@ meu-projeto/
 │   │   ├── services/          # regras de negócio
 │   │   ├── models/            # tipos/acesso a dados
 │   │   ├── middlewares/       # funções que rodam antes das rotas (auth, erros...)
-│   │   └── schemas/           # validações com zod
+│   │   ├── schemas/           # validações com zod
+│   │   ├── lib/prisma.ts      # conexão com o banco (ver banco-de-dados.MD)
+│   │   └── generated/prisma/  # client gerado pelo Prisma (NÃO vai pro git)
+│   ├── prisma/                # schema.prisma, migrations e seed
 │   ├── dist/                  # JS compilado (gerado pelo tsc, NÃO vai pro git)
 │   ├── .env                   # variáveis secretas (NÃO vai pro git)
 │   ├── .env.example           # modelo do .env, sem valores secretos (VAI pro git)
+│   ├── prisma.config.ts
 │   ├── package.json
 │   └── tsconfig.json
 ├── frontend/                  # criado pelo Vite (ver seção 11)
@@ -85,6 +89,35 @@ meu-projeto/
 ├── .gitignore
 └── README.md
 ```
+
+### Um `package.json` só (na raiz) ou um por pasta?
+
+As duas formas estão certas. O que muda é **quantos projetos Node** você tem. A regra que nunca muda:
+**o `node_modules` (e o Prisma) ficam ao lado do `package.json` que usa eles**, e os comandos `npm`/`npx`
+são rodados na pasta desse `package.json`.
+
+**A) Um projeto só, tudo na raiz** → quando o front é HTML/CSS/JS "na mão", servido pelo próprio express
+(`express.static`), ou quando o projeto é só uma API. É o formato mais comum em cursos e projetos menores.
+
+```
+meu-projeto/
+├── src/  (ou backend/)        # código do servidor
+├── public/                    # front feito na mão (html, css, js), servido pelo express
+├── prisma/
+├── prisma.config.ts
+├── .env
+├── package.json               # UM só: express, prisma, zod... tudo aqui
+├── package-lock.json
+└── tsconfig.json
+```
+
+**B) Front e back separados, cada um com seu `package.json`** (a árvore lá de cima) → quando o front tem
+**ferramenta própria** (Vite, React, Next...). O `npm create vite` já cria o `frontend/` com o `package.json`
+dele, com scripts (`dev`, `build`) e dependências que não têm nada a ver com as do servidor. Aqui cada pasta é
+um projeto separado: `cd backend` antes de instalar coisa do servidor, `cd frontend` antes de instalar coisa do front.
+
+> 💡 No formato B, também é normal ter um `package.json` na raiz quando se usa **npm workspaces** (monorepo):
+> ele "junta" os dois projetos e deixa rodar tudo de um lugar só. É um passo a mais, não precisa para começar.
 
 > Por que separar `app.ts` de `server.ts`? Porque nos **testes** você importa só o `app` sem precisar
 > abrir uma porta de verdade. Fica bem mais fácil testar.
@@ -811,7 +844,7 @@ Para instalar a partir dele (ex: depois de clonar), use `npm ci`.
 ## 15 - Checklist final
 
 - [ ] `git init` + `.gitignore` (com `node_modules`, `dist`, `.env`)
-- [ ] `npm init -y` e `"type": "module"` no package.json
+- [ ] `npm init -y` na pasta certa (raiz no formato A, `backend/` no formato B, ver seção 1) e `"type": "module"` no package.json
 - [ ] Dependências instaladas no lugar certo (produção x `-D`)
 - [ ] `tsconfig.json` com `rootDir`, `outDir`, `types: ["node"]` e `strict: true`
 - [ ] Scripts `dev`, `typecheck`, `build`, `start`
