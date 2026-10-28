@@ -247,6 +247,8 @@ export default defineConfig({
 ```
 
 > Se o `init` criar o arquivo com outro nome (ex: `prisma7.config.ts`), renomeie para **`prisma.config.ts`**.
+> A CLI só procura esse nome. Com outro nome ela ignora o arquivo e não acha a `DATABASE_URL`.
+> Se não quiser renomear, passe o caminho em todo comando: `npx prisma migrate dev --config prisma7.config.ts`.
 
 ### .env
 
@@ -995,6 +997,7 @@ npx prisma studio
 | `Can't reach database server at localhost:5432`                      | O Postgres não está rodando, ou host/porta errados na URL. Suba o banco (seção 1). |
 | `Authentication failed against database server`                      | Usuário/senha errados na `DATABASE_URL`. Senha com caracteres especiais precisa ser codificada. |
 | `Environment variable not found: DATABASE_URL`                       | Faltou o `import "dotenv/config"` no `prisma.config.ts` ou o `.env` não existe.  |
+| `The datasource.url property is required` / a CLI ignora a config     | O arquivo não se chama `prisma.config.ts` (ex: `prisma7.config.ts`). Renomeie ou use `--config` (seção 3). |
 | `Property 'novoCampo' does not exist on type...`                     | Mudou o schema e esqueceu do `npx prisma generate`.                              |
 | `Cannot find module '../generated/prisma/client.js'`                 | Client ainda não foi gerado (`npx prisma generate`) ou o caminho do `output` está diferente do import. |
 | `ERR_MODULE_NOT_FOUND ... enums.ts` (só no `npm start`)              | Faltou o `importFileExtension = "js"` no generator (seção 4).                    |
