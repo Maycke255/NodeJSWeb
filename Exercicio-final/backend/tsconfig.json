@@ -8,7 +8,6 @@
     "types": ["node"],
     "sourceMap": true,
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
     // Recommended Options
     "strict": true,
     "verbatimModuleSyntax": true,
