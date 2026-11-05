@@ -9,6 +9,12 @@ import { fail } from "../types/apiResponse.js";
 o usuário existe? O email já está em uso? O livro tem estoque? */
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof SyntaxError && "body" in err) {
+        res.status(400).json(fail("JSON invalido no corpo da requisicao!"));
+        return;
+    }
+
+    
     if (err instanceof ZodError) {
         res.status(400).json(fail("Dados invalidos", z.flattenError(err).fieldErrors));
         return;
@@ -32,5 +38,5 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     }
 
     console.error(err);
-    res.status(500).json(fail("Erro interno no servidor!", err));
+    res.status(500).json(fail("Erro interno no servidor!"));
 }
