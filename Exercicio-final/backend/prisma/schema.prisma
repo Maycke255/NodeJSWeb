@@ -29,6 +29,8 @@ model Book {
   quantityAvailable Int
   createdAt    DateTime @default(now())
   loans Loan[]
+
+  @@unique([title, author])
 }
 
 model Loan {

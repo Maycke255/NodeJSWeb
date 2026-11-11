@@ -96,7 +96,7 @@ class UsersModelADM {
         const loans = await prisma.loan.count({
             where: { userId: id }
         });
-        if (loans > 0) throw new HttpError(409, "Não é possivel excluir um usuario com emprestimos registrados!")
+        if (loans > 0) throw new HttpError(409, "Não é possivel excluir um usuario com emprestimos registrados!");
 
         // Apaga e devolve o registro apagado (só os campos públicos).
         return await prisma.user.delete({

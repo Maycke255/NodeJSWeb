@@ -230,6 +230,7 @@ export type BookOrderByWithRelationInput = {
 
 export type BookWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  title_author?: Prisma.BookTitleAuthorCompoundUniqueInput
   AND?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
   OR?: Prisma.BookWhereInput[]
   NOT?: Prisma.BookWhereInput | Prisma.BookWhereInput[]
@@ -238,7 +239,7 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   quantityAvailable?: Prisma.IntFilter<"Book"> | number
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   loans?: Prisma.LoanListRelationFilter
-}, "id">
+}, "id" | "title_author">
 
 export type BookOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -322,6 +323,11 @@ export type BookUncheckedUpdateManyInput = {
   author?: Prisma.StringFieldUpdateOperationsInput | string
   quantityAvailable?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BookTitleAuthorCompoundUniqueInput = {
+  title: string
+  author: string
 }
 
 export type BookCountOrderByAggregateInput = {
