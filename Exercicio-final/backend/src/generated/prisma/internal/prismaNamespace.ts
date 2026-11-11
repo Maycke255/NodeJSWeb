@@ -707,6 +707,7 @@ export const LoanScalarFieldEnum = {
   userId: 'userId',
   bookId: 'bookId',
   createdAt: 'createdAt',
+  dueDate: 'dueDate',
   returnDate: 'returnDate',
   isReturned: 'isReturned',
   isLate: 'isLate'

@@ -29,6 +29,7 @@ export type LoanMinAggregateOutputType = {
   userId: string | null
   bookId: string | null
   createdAt: Date | null
+  dueDate: Date | null
   returnDate: Date | null
   isReturned: boolean | null
   isLate: boolean | null
@@ -39,6 +40,7 @@ export type LoanMaxAggregateOutputType = {
   userId: string | null
   bookId: string | null
   createdAt: Date | null
+  dueDate: Date | null
   returnDate: Date | null
   isReturned: boolean | null
   isLate: boolean | null
@@ -49,6 +51,7 @@ export type LoanCountAggregateOutputType = {
   userId: number
   bookId: number
   createdAt: number
+  dueDate: number
   returnDate: number
   isReturned: number
   isLate: number
@@ -61,6 +64,7 @@ export type LoanMinAggregateInputType = {
   userId?: true
   bookId?: true
   createdAt?: true
+  dueDate?: true
   returnDate?: true
   isReturned?: true
   isLate?: true
@@ -71,6 +75,7 @@ export type LoanMaxAggregateInputType = {
   userId?: true
   bookId?: true
   createdAt?: true
+  dueDate?: true
   returnDate?: true
   isReturned?: true
   isLate?: true
@@ -81,6 +86,7 @@ export type LoanCountAggregateInputType = {
   userId?: true
   bookId?: true
   createdAt?: true
+  dueDate?: true
   returnDate?: true
   isReturned?: true
   isLate?: true
@@ -164,6 +170,7 @@ export type LoanGroupByOutputType = {
   userId: string
   bookId: string
   createdAt: Date
+  dueDate: Date
   returnDate: Date | null
   isReturned: boolean
   isLate: boolean
@@ -195,6 +202,7 @@ export type LoanWhereInput = {
   userId?: Prisma.StringFilter<"Loan"> | string
   bookId?: Prisma.StringFilter<"Loan"> | string
   createdAt?: Prisma.DateTimeFilter<"Loan"> | Date | string
+  dueDate?: Prisma.DateTimeFilter<"Loan"> | Date | string
   returnDate?: Prisma.DateTimeNullableFilter<"Loan"> | Date | string | null
   isReturned?: Prisma.BoolFilter<"Loan"> | boolean
   isLate?: Prisma.BoolFilter<"Loan"> | boolean
@@ -207,6 +215,7 @@ export type LoanOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrderInput | Prisma.SortOrder
   isReturned?: Prisma.SortOrder
   isLate?: Prisma.SortOrder
@@ -222,6 +231,7 @@ export type LoanWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Loan"> | string
   bookId?: Prisma.StringFilter<"Loan"> | string
   createdAt?: Prisma.DateTimeFilter<"Loan"> | Date | string
+  dueDate?: Prisma.DateTimeFilter<"Loan"> | Date | string
   returnDate?: Prisma.DateTimeNullableFilter<"Loan"> | Date | string | null
   isReturned?: Prisma.BoolFilter<"Loan"> | boolean
   isLate?: Prisma.BoolFilter<"Loan"> | boolean
@@ -234,6 +244,7 @@ export type LoanOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrderInput | Prisma.SortOrder
   isReturned?: Prisma.SortOrder
   isLate?: Prisma.SortOrder
@@ -250,6 +261,7 @@ export type LoanScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Loan"> | string
   bookId?: Prisma.StringWithAggregatesFilter<"Loan"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Loan"> | Date | string
+  dueDate?: Prisma.DateTimeWithAggregatesFilter<"Loan"> | Date | string
   returnDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Loan"> | Date | string | null
   isReturned?: Prisma.BoolWithAggregatesFilter<"Loan"> | boolean
   isLate?: Prisma.BoolWithAggregatesFilter<"Loan"> | boolean
@@ -258,6 +270,7 @@ export type LoanScalarWhereWithAggregatesInput = {
 export type LoanCreateInput = {
   id?: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -270,6 +283,7 @@ export type LoanUncheckedCreateInput = {
   userId: string
   bookId: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -278,6 +292,7 @@ export type LoanUncheckedCreateInput = {
 export type LoanUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -290,6 +305,7 @@ export type LoanUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -300,6 +316,7 @@ export type LoanCreateManyInput = {
   userId: string
   bookId: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -308,6 +325,7 @@ export type LoanCreateManyInput = {
 export type LoanUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -318,6 +336,7 @@ export type LoanUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -338,6 +357,7 @@ export type LoanCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrder
   isReturned?: Prisma.SortOrder
   isLate?: Prisma.SortOrder
@@ -348,6 +368,7 @@ export type LoanMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrder
   isReturned?: Prisma.SortOrder
   isLate?: Prisma.SortOrder
@@ -358,6 +379,7 @@ export type LoanMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrder
   isReturned?: Prisma.SortOrder
   isLate?: Prisma.SortOrder
@@ -458,6 +480,7 @@ export type BoolFieldUpdateOperationsInput = {
 export type LoanCreateWithoutUserInput = {
   id?: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -468,6 +491,7 @@ export type LoanUncheckedCreateWithoutUserInput = {
   id?: string
   bookId: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -507,6 +531,7 @@ export type LoanScalarWhereInput = {
   userId?: Prisma.StringFilter<"Loan"> | string
   bookId?: Prisma.StringFilter<"Loan"> | string
   createdAt?: Prisma.DateTimeFilter<"Loan"> | Date | string
+  dueDate?: Prisma.DateTimeFilter<"Loan"> | Date | string
   returnDate?: Prisma.DateTimeNullableFilter<"Loan"> | Date | string | null
   isReturned?: Prisma.BoolFilter<"Loan"> | boolean
   isLate?: Prisma.BoolFilter<"Loan"> | boolean
@@ -515,6 +540,7 @@ export type LoanScalarWhereInput = {
 export type LoanCreateWithoutBookInput = {
   id?: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -525,6 +551,7 @@ export type LoanUncheckedCreateWithoutBookInput = {
   id?: string
   userId: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -560,6 +587,7 @@ export type LoanCreateManyUserInput = {
   id?: string
   bookId: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -568,6 +596,7 @@ export type LoanCreateManyUserInput = {
 export type LoanUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -578,6 +607,7 @@ export type LoanUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -587,6 +617,7 @@ export type LoanUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -596,6 +627,7 @@ export type LoanCreateManyBookInput = {
   id?: string
   userId: string
   createdAt?: Date | string
+  dueDate: Date | string
   returnDate?: Date | string | null
   isReturned?: boolean
   isLate?: boolean
@@ -604,6 +636,7 @@ export type LoanCreateManyBookInput = {
 export type LoanUpdateWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -614,6 +647,7 @@ export type LoanUncheckedUpdateWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -623,6 +657,7 @@ export type LoanUncheckedUpdateManyWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isReturned?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isLate?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -635,6 +670,7 @@ export type LoanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   userId?: boolean
   bookId?: boolean
   createdAt?: boolean
+  dueDate?: boolean
   returnDate?: boolean
   isReturned?: boolean
   isLate?: boolean
@@ -647,6 +683,7 @@ export type LoanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   userId?: boolean
   bookId?: boolean
   createdAt?: boolean
+  dueDate?: boolean
   returnDate?: boolean
   isReturned?: boolean
   isLate?: boolean
@@ -659,6 +696,7 @@ export type LoanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   userId?: boolean
   bookId?: boolean
   createdAt?: boolean
+  dueDate?: boolean
   returnDate?: boolean
   isReturned?: boolean
   isLate?: boolean
@@ -671,12 +709,13 @@ export type LoanSelectScalar = {
   userId?: boolean
   bookId?: boolean
   createdAt?: boolean
+  dueDate?: boolean
   returnDate?: boolean
   isReturned?: boolean
   isLate?: boolean
 }
 
-export type LoanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bookId" | "createdAt" | "returnDate" | "isReturned" | "isLate", ExtArgs["result"]["loan"]>
+export type LoanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bookId" | "createdAt" | "dueDate" | "returnDate" | "isReturned" | "isLate", ExtArgs["result"]["loan"]>
 export type LoanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
@@ -701,6 +740,7 @@ export type $LoanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     userId: string
     bookId: string
     createdAt: Date
+    dueDate: Date
     returnDate: Date | null
     isReturned: boolean
     isLate: boolean
@@ -1133,6 +1173,7 @@ export interface LoanFieldRefs {
   readonly userId: Prisma.FieldRef<"Loan", 'String'>
   readonly bookId: Prisma.FieldRef<"Loan", 'String'>
   readonly createdAt: Prisma.FieldRef<"Loan", 'DateTime'>
+  readonly dueDate: Prisma.FieldRef<"Loan", 'DateTime'>
   readonly returnDate: Prisma.FieldRef<"Loan", 'DateTime'>
   readonly isReturned: Prisma.FieldRef<"Loan", 'Boolean'>
   readonly isLate: Prisma.FieldRef<"Loan", 'Boolean'>
